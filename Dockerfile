@@ -14,8 +14,4 @@ COPY src ./src
 # Compile the application
 RUN mvn -f /lifesync/pom.xml clean install
 
-# Deploy to Tomcat
-FROM tomcat:jdk21-openjdk AS Deploy
-COPY --from=Builder /lifesync/*.war /usr/local/tomcat/webapps/
-
-CMD ["catalina.sh", "run"]
+CMD ["java", "-jar", "/lifesync/target/LifeSync.war"]
