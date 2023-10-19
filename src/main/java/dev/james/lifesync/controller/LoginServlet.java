@@ -10,12 +10,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 
+    Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
+
     private void authenticateUser(String username, String password) throws AuthenticationException {
-        if (!username.equals("James") && !password.equals("James")) {
+        if (!username.equals("James") || !password.equals("James")) {
             throw new AuthenticationException();
         }
     }
@@ -35,8 +38,10 @@ public class LoginServlet extends HttpServlet {
         try {
             authenticateUser(username, password);
         } catch (AuthenticationException e) {
-            // TODO: A user-friendly error should be shown on the home page here
-            throw new RuntimeException(e);
+            LOGGER.warning("User " + username + " tried to login but their credentials were incorrect.");
+            request.setAttribute("loginError", "Invalid Username or Password.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
         }
 
         HttpSession session = request.getSession();
