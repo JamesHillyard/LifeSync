@@ -6,7 +6,7 @@
     </head>
 
     <body>
-        Hello ${user.firstName}
+        Hello ${user.firstname}
 
         <ul>
             <li><a href="${pageContext.request.contextPath}/meals">Meals</a></li>

@@ -17,7 +17,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         LifeSyncUser user = (LifeSyncUser) request.getSession().getAttribute("user");
-        LOGGER.fine("User " + user.getFirstName() + " has logged out.");
+        LOGGER.fine("User " + user.getUsername() + " has logged out.");
 
         request.getSession().invalidate();
         response.sendRedirect(request.getContextPath() + "login.jsp");
