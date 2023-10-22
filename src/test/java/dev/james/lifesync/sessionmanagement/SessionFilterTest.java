@@ -31,7 +31,7 @@ class SessionFilterTest {
     @Test
     public void testWithUserSession_tryAccessDashboard() throws Exception {
         MockHttpSession session = new MockHttpSession();
-        session.setAttribute("user", new LifeSyncUser("SessionFilterTest"));
+        session.setAttribute("user", new LifeSyncUser());
 
         // Mock the absence of HttpSession by setting it to null
         mockMvc.perform(get("/dashboard.jsp")
@@ -42,7 +42,7 @@ class SessionFilterTest {
     @Test
     public void testWithUserSession_tryAccessLogin() throws Exception {
         MockHttpSession session = new MockHttpSession();
-        session.setAttribute("user", new LifeSyncUser("SessionFilterTest"));
+        session.setAttribute("user", new LifeSyncUser());
 
         // Mock the absence of HttpSession by setting it to null
         mockMvc.perform(get("/login.jsp")
@@ -65,7 +65,7 @@ class SessionFilterTest {
     @Test
     public void testWithInvalidUserSession_tryAccessLogin() throws Exception {
         MockHttpSession session = new MockHttpSession();
-        session.setAttribute("KeyIsNotUser", new LifeSyncUser("SessionFilterTest"));
+        session.setAttribute("KeyIsNotUser", new LifeSyncUser());
 
         // Mock the absence of HttpSession by setting it to null
         mockMvc.perform(get("/login.jsp")
@@ -76,7 +76,7 @@ class SessionFilterTest {
     @Test
     public void testWithInvalidUserSession_tryAccessDashboard() throws Exception {
         MockHttpSession session = new MockHttpSession();
-        session.setAttribute("KeyIsNotUser", new LifeSyncUser("SessionFilterTest"));
+        session.setAttribute("KeyIsNotUser", new LifeSyncUser());
 
         // Mock the absence of HttpSession by setting it to null
         mockMvc.perform(get("/dashboard.jsp")
