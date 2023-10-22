@@ -1,9 +1,7 @@
 package dev.james.lifesync.controller;
 
-import dev.james.lifesync.dao.LifeSyncUserDAO;
 import dev.james.lifesync.dao.LifeSyncUserService;
 import dev.james.lifesync.exception.AuthenticationException;
-import dev.james.lifesync.model.LifeSyncUser;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,14 +26,15 @@ public class LoginServlet extends HttpServlet {
     Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
 
     private void authenticateUser(String username, String password) throws AuthenticationException {
-        if (!password.equals(lifeSyncUserService.getUserPassword(username))) {
+        String passwordInDatabase = lifeSyncUserService.getUserPassword(username);
+        if (!password.equals(passwordInDatabase)) {
             throw new AuthenticationException();
         }
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect(request.getContextPath() + "login.jsp");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     @Override
@@ -45,8 +44,10 @@ public class LoginServlet extends HttpServlet {
 
         try {
             authenticateUser(username, password);
+            LOGGER.fine("User " + username + " successfully authenticated.");
         } catch (AuthenticationException e) {
-            LOGGER.warning("User " + username + " tried to login but their credentials were incorrect.");
+            LOGGER.fine("User " + username + " tried to login but their credentials were incorrect.");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             request.setAttribute("loginError", "Invalid Username or Password.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;

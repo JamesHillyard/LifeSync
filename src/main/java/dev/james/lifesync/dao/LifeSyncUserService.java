@@ -24,6 +24,9 @@ public class LifeSyncUserService {
 
     public String getUserPassword(String username) {
         LifeSyncUser user = lifeSyncUserDAO.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
         return user.getPassword();
     }
 }
