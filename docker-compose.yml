@@ -20,7 +20,7 @@ services:
       MYSQL_ROOT_PASSWORD: root # Set the master password for user 'root' to 'root'
       MYSQL_TCP_PORT: 3308 # Set MySQL to run on port 3308
       MYSQL_DATABASE: lifesync_database # Create the database 'lifesync_database'
-    # Mount the discordbot.sql file and run it - This sets up the database
+    # Mount the lifesync_database.sql file and run it - This sets up the database
     volumes:
       - db-data:/var/lib/mysql
       - ./config/database/lifesync_database.sql:/docker-entrypoint-initdb.d/1.sql
