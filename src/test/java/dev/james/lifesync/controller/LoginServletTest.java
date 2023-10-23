@@ -5,7 +5,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.ext.ScriptUtils;
+import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -24,19 +28,22 @@ public class LoginServletTest {
     private int springPort;
 
     @Container
-    public static MySQLContainer<?> mysqlContainer;
+    public static MySQLContainer<?> mysqlContainer =
+            new MySQLContainer<>("mysql:8.0.28")
+                    .withInitScript("lifesync_database_test.sql")
+                    .withDatabaseName("lifesync_database")
+                    .withUsername("lifesync")
+                    .withPassword("changeit");
 
-    static {
-        mysqlContainer = new MySQLContainer<>("mysql:8.0.28")
-                .withDatabaseName("lifesync_database")
-                .withUsername("lifesync")
-                .withPassword("changeit")
-                .withInitScript("dev/james/lifesync/controller/LoginServletTest.sql")
-                .withInitScript(String.valueOf("lifesync_database_test.sql"));
+    @DynamicPropertySource
+    static void registerMySqlProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", mysqlContainer::getJdbcUrl);
     }
 
     @BeforeAll
     public static void setUpDatabase() {
+        // Testcontainers doesn't support multiple init scripts. This is a workaround to run multiple https://github.com/testcontainers/testcontainers-java/issues/2232
+        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/controller/LoginServletTest.sql");
         mysqlContainer.start();
     }
 
@@ -48,7 +55,7 @@ public class LoginServletTest {
     @Test
     public void testLoginServletRedirectToLoginPage() throws IOException {
         URL url = new URL(String.format("http://%s:%s/login",
-                mysqlContainer.getHost(),
+                "localhost",
                 springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -61,7 +68,7 @@ public class LoginServletTest {
     @Test
     public void testLoginServletWithValidCredentials() throws IOException {
         URL url = new URL(String.format("http://%s:%s/login",
-                mysqlContainer.getHost(),
+                "localhost",
                 springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -79,7 +86,7 @@ public class LoginServletTest {
     @Test
     public void testLoginServletWithCorrectUsernameIncorrectPassword() throws IOException {
         URL url = new URL(String.format("http://%s:%s/login",
-                mysqlContainer.getHost(),
+                "localhost",
                 springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -96,7 +103,7 @@ public class LoginServletTest {
     @Test
     public void testLoginServletWithIncorrectUsernameCorrectPassword() throws IOException {
         URL url = new URL(String.format("http://%s:%s/login",
-                mysqlContainer.getHost(),
+                "localhost",
                 springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
