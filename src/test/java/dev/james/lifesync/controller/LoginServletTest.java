@@ -80,7 +80,7 @@ public class LoginServletTest {
 
         int responseCode = connection.getResponseCode();
 
-        assertEquals(200, responseCode); // 301 returned due to the redirect to /dashboard
+        assertEquals(200, responseCode); // 301 returned due to the redirect to /hlsp/dashboard
     }
 
     @Test

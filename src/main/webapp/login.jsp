@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <input type="password" class="form-control custom-input" placeholder="Password" name="password">
                         <div class="text-right mt-2">
-                            <a href="#" class="gray-text">Forgot Password?</a>
+                            <a href="passwordreset" class="gray-text">Forgot Password?</a>
                         </div>
                     </div>
                     <div class="invalid-feedback">This field is required.</div>

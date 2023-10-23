@@ -9,9 +9,9 @@
         Hello ${user.firstname}
 
         <ul>
-            <li><a href="${pageContext.request.contextPath}/dashboard">Dashboard</a></li>
-            <li><a href="${pageContext.request.contextPath}/meals">Meals</a></li>
-            <li><a href="${pageContext.request.contextPath}/sleep">Sleep</a></li>
+            <li><a href="${pageContext.request.contextPath}/hlsp/dashboard">Dashboard</a></li>
+            <li><a href="${pageContext.request.contextPath}/hlsp/meals">Meals</a></li>
+            <li><a href="${pageContext.request.contextPath}/hlsp/sleep">Sleep</a></li>
         </ul>
     </body>
 </html>

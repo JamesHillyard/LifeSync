@@ -56,6 +56,6 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("user", lifeSyncUserService.getUser(username));
         // User authenticated successfully. Take them to the dashboard
-        response.sendRedirect(request.getContextPath() + "/dashboard");
+        response.sendRedirect(request.getContextPath() + "/hlsp/dashboard");
     }
 }

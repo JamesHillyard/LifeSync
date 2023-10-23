@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-@WebServlet(name = "LogoutServlet", urlPatterns = "/logout")
+@WebServlet(name = "LogoutServlet", urlPatterns = "/hlsp/logout")
 public class LogoutServlet extends HttpServlet {
 
     final Logger LOGGER = Logger.getLogger(LogoutServlet.class.getName());

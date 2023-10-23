@@ -9,12 +9,12 @@
         Hello ${user.firstname}
 
         <ul>
-            <li><a href="${pageContext.request.contextPath}/dashboard">Dashboard</a></li>
-            <li><a href="${pageContext.request.contextPath}/exercise">Exercise</a></li>
-            <li><a href="${pageContext.request.contextPath}/sleep">Sleep</a></li>
+            <li><a href="${pageContext.request.contextPath}/hlsp/dashboard">Dashboard</a></li>
+            <li><a href="${pageContext.request.contextPath}/hlsp/exercise">Exercise</a></li>
+            <li><a href="${pageContext.request.contextPath}/hlsp/sleep">Sleep</a></li>
         </ul>
 
-        <form action="${pageContext.request.contextPath}/logout" method="get">
+        <form action="${pageContext.request.contextPath}/hlsp/logout" method="get">
             <input type="submit" value="Logout"/>
         </form>
     </body>

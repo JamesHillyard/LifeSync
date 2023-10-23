@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "SleepServlet", urlPatterns = "/sleep")
+@WebServlet(name = "SleepServlet", urlPatterns = "/hlsp/sleep")
 public class SleepServlet extends HttpServlet {
 
     @Override

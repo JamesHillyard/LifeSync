@@ -18,11 +18,8 @@ import java.util.List;
  * a session to be accessed. This is hardcoded and would need expanding if there are more pages that do not require a
  * session
  */
-@WebFilter(filterName = "SessionFilter", urlPatterns = "/*")
+@WebFilter(filterName = "SessionFilter", urlPatterns = "/hlsp/*")
 public class SessionFilter implements Filter {
-
-    private final List<String> excludedPaths = List.of("/login", "/login.jsp", ".css", ".jpg");
-
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -33,15 +30,6 @@ public class SessionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-
-        // Don't session check anything in the excluded paths.
-        String requestURI = httpRequest.getRequestURI();
-        for (String excludedPath : excludedPaths) {
-            if (requestURI.endsWith(excludedPath)) {
-                filterChain.doFilter(servletRequest, servletResponse);
-                return;
-            }
-        }
 
         HttpSession session = httpRequest.getSession(false); // Do not create a new session if it doesn't exist
         if (session != null && session.getAttribute("user") != null) {
