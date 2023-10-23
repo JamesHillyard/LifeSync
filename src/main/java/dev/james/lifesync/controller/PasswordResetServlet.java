@@ -37,6 +37,7 @@ public class PasswordResetServlet extends HttpServlet {
         LifeSyncUser user = lifeSyncUserService.getUser(username);
         if (user == null) {
             LOGGER.fine("Couldn't reset password as user " + username + " does not exist.");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             request.setAttribute("error", "User doesn't exist.");
             request.getRequestDispatcher("passwordreset.jsp").forward(request, response);
             return;
