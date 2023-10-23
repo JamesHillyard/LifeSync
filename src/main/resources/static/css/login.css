@@ -8,13 +8,12 @@
     color: white;
 }
 .small-rounded-btn {
-    border-radius: 20px; /* Adjust the border radius as needed */
-    font-size: 14px; /* Adjust the font size as needed */
+    border-radius: 20px;
+    font-size: 14px;
     padding: 10px 10px;
 }
-/* Custom CSS for gray text */
 .gray-text {
-    color: rgb(128, 128, 128); /* Set the text color to gray */
+    color: rgb(128, 128, 128);
 }
 .custom-input {
     width: 100%;
@@ -23,7 +22,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /*align-items: center;*/
     height: 100%; /* This ensures the container takes the full height of its parent */
 }
 .form-padding {
