@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author James Hillyard
@@ -20,6 +21,8 @@ import java.io.IOException;
 @WebFilter(filterName = "SessionFilter", urlPatterns = "/*")
 public class SessionFilter implements Filter {
 
+    private final List<String> excludedPaths = List.of("/login", "/login.jsp", ".css", ".jpg");
+
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -31,11 +34,13 @@ public class SessionFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
-        // Don't session check the login page.
+        // Don't session check anything in the excluded paths.
         String requestURI = httpRequest.getRequestURI();
-        if (requestURI.endsWith("/login") || requestURI.endsWith("/login.jsp")) {
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
+        for (String excludedPath : excludedPaths) {
+            if (requestURI.endsWith(excludedPath)) {
+                filterChain.doFilter(servletRequest, servletResponse);
+                return;
+            }
         }
 
         HttpSession session = httpRequest.getSession(false); // Do not create a new session if it doesn't exist
