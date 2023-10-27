@@ -231,7 +231,7 @@
         <%-- Iterate through your processed sleep data and generate an array --%>
         <c:forEach items="${sleepData}" var="data">
         {
-            date: "${data.getEnddate()}",
+            date: "${data.getEndtime().toLocalDateTime().toLocalDate()}",
             duration: ${data.getDurationInHoursAndMinutes()}
         },
         </c:forEach>

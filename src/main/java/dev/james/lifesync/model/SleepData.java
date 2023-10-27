@@ -103,8 +103,4 @@ public class SleepData {
             return null;
         }
     }
-
-    public LocalDate getEnddate() {
-        return endtime.toLocalDateTime().toLocalDate();
-    }
 }
