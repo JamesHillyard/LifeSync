@@ -2,6 +2,7 @@ package dev.james.lifesync.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +25,9 @@ public class LifeSyncUser {
     @Basic
     @Column(name = "password")
     private String password;
+
+    @Transient
+    private List<SleepData> sleepData;
 
     public LifeSyncUser(int id, String firstname, String lastname, String username, String password) {
         this.id = id;
@@ -75,6 +79,14 @@ public class LifeSyncUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<SleepData> getSleepData() {
+        return sleepData;
+    }
+
+    public void setSleepData(List<SleepData> sleepData) {
+        this.sleepData = sleepData;
     }
 
     @Override

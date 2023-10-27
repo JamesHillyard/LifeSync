@@ -1,0 +1,9 @@
+.tab-pane {
+    display: none;
+}
+.nav-link {
+    color: #808080FF; /* Text colour for inactive tabs */
+}
+.nav-link.active {
+    color: #0097E6; /* Text color for the active tab */
+}

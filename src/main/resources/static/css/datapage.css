@@ -1,0 +1,14 @@
+.quadrant-container {
+    border: 1px solid lightgray;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures the quadrant takes up the full height */
+}
+.quadrant-top {
+    margin-bottom: 5px; /* Add margin to the bottom of the top quadrants */
+}
+
+.quadrant-bottom {
+    margin-top: 5px; /* Add margin to the top of the bottom quadrants */
+}

@@ -9,3 +9,16 @@ CREATE TABLE IF NOT EXISTS `LifeSyncUser` (
                                 PRIMARY KEY (`id`),
                                 UNIQUE KEY `username_UNIQUE` (`username`)
 );
+CREATE TABLE IF NOT EXISTS `SleepData` (
+                                 `sleepid` INT NOT NULL AUTO_INCREMENT,
+                                 `userid` INT NOT NULL,
+                                 `starttime` DATETIME NULL,
+                                 `endtime` DATETIME NULL,
+                                 PRIMARY KEY (`sleepid`),
+                                 INDEX `userid_idx` (`userid` ASC) VISIBLE,
+                                 CONSTRAINT `userid`
+                                     FOREIGN KEY (`userid`)
+                                         REFERENCES `lifesync_database`.`LifeSyncUser` (`id`)
+                                         ON DELETE NO ACTION
+                                         ON UPDATE NO ACTION
+);
