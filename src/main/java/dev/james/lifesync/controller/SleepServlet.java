@@ -1,5 +1,7 @@
 package dev.james.lifesync.controller;
 
+import dev.james.lifesync.article.ArticleRecommender;
+import dev.james.lifesync.dao.ArticleService;
 import dev.james.lifesync.dao.SleepDataService;
 import dev.james.lifesync.model.LifeSyncUser;
 import dev.james.lifesync.model.SleepData;
@@ -23,10 +25,12 @@ public class SleepServlet extends HttpServlet {
     private final int DATAPOINTS = 7;
 
     private final SleepDataService sleepDataService;
+    private final ArticleRecommender articleRecommender;
 
     @Autowired
-    public SleepServlet(SleepDataService sleepDataService) {
+    public SleepServlet(SleepDataService sleepDataService, ArticleRecommender articleRecommender) {
         this.sleepDataService = sleepDataService;
+        this.articleRecommender = articleRecommender;
     }
 
     Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
@@ -43,6 +47,7 @@ public class SleepServlet extends HttpServlet {
         request.getSession().setAttribute("sleepData", user.getSleepData());
         request.getSession().setAttribute("percentageDaysSleepOverRecommended", getPercentageOfDaysSleepOverRecommended(user.getSleepData()));
         request.getSession().setAttribute("averageSleepDuration", getAverageSleepDurationInMinutes(user.getSleepData()));
+        request.getSession().setAttribute("articles", articleRecommender.getSleepArticles());
         response.sendRedirect(request.getContextPath() + "sleep.jsp");
     }
 

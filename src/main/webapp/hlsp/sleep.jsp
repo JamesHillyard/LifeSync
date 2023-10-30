@@ -74,17 +74,34 @@
 
 <div class="container-fluid">
     <div class="row">
+        <!-- Top-left quadrant for the chart -->
         <div class="col-md-6 col-sm-12">
             <div class="quadrant-container quadrant-top">
-                <!-- Top-left quadrant for the chart -->
                 <h4>Sleep Duration Chart for the Past 7 Days</h4>
                 <canvas id="sleepChart" width="300" height="125"></canvas>
             </div>
         </div>
+        <!-- Top-right quadrant for articles -->
         <div class="col-md-6 col-sm-12">
             <div class="quadrant-container quadrant-top">
-                Use shadcn tasks as the reading list?
-                <!-- Top-right quadrant left blank for articles -->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Source</th>
+                        <th>URL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="article" items="${articles}">
+                        <tr>
+                            <td>${article.getName()}</td>
+                            <td>${article.getSource()}</td>
+                            <td><a href=${article.getUrl()}>Read Here</a></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -93,7 +110,7 @@
         <div class="col-md-6 col-sm-12">
             <div class="quadrant-container quadrant-bottom">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 text-center">
                         <h4>Recommended Sleep Frequency</h4>
                         <c:choose>
                             <c:when test="${percentageDaysSleepOverRecommended >= 80}">
@@ -107,7 +124,7 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 text-center">
                         <h4>Average Sleep Duration</h4>
                         <c:choose>
                             <c:when test="${averageSleepDuration >= 420 && averageSleepDuration <= 540}">
@@ -136,7 +153,7 @@
                         <a class="nav-link" data-toggle="tab" href="#input-sleep">Input Sleep Data</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#edit-sleep">Edit Sleep Data</a>
+                        <a class="nav-link disabled" data-toggle="tab" href="#edit-sleep">Edit Sleep Data</a>
                     </li>
                 </ul>
 

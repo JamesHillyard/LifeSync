@@ -22,3 +22,10 @@ CREATE TABLE IF NOT EXISTS `SleepData` (
                                          ON DELETE NO ACTION
                                          ON UPDATE NO ACTION
 );
+CREATE TABLE `lifesync_database`.`Article` (
+                                               `id` INT NOT NULL AUTO_INCREMENT,
+                                               `name` LONGTEXT NOT NULL,
+                                               `url` LONGTEXT NOT NULL,
+                                               `section` SET("Sleep", "Exercise", "Nutrition") NOT NULL,
+                                               `tags` MEDIUMTEXT NOT NULL,
+                                               PRIMARY KEY (`id`));
