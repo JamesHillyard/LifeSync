@@ -28,4 +28,5 @@ CREATE TABLE `lifesync_database`.`Article` (
                                                `url` LONGTEXT NOT NULL,
                                                `section` SET("Sleep", "Exercise", "Nutrition") NOT NULL,
                                                `tags` MEDIUMTEXT NOT NULL,
-                                               PRIMARY KEY (`id`));
+                                               PRIMARY KEY (`id`)
+);

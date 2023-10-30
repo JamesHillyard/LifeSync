@@ -43,7 +43,7 @@ public class PasswordResetServletTest {
     @BeforeAll
     public static void setUpDatabase() {
         // Testcontainers doesn't support multiple init scripts. This is a workaround to run multiple https://github.com/testcontainers/testcontainers-java/issues/2232
-        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/controller/LoginServletTest.sql");
+        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/controller/PasswordResetServletTest.sql");
         mysqlContainer.start();
     }
 
@@ -53,7 +53,7 @@ public class PasswordResetServletTest {
     }
 
     @Test
-    public void testLoginServletRedirectToLoginPage() throws IOException {
+    public void testPasswordResetServletRedirectToPasswordResetPage() throws IOException {
         URL url = new URL(String.format("http://%s:%s/passwordreset",
                 "localhost",
                 springPort));
@@ -84,7 +84,7 @@ public class PasswordResetServletTest {
     }
 
     @Test
-    public void testLoginServletWithIncorrectUsernameCorrectPassword() throws IOException {
+    public void testPasswordResetServletWithIncorrectUsernameCorrectPassword() throws IOException {
         URL url = new URL(String.format("http://%s:%s/passwordreset",
                 "localhost",
                 springPort));

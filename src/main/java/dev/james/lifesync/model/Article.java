@@ -30,6 +30,13 @@ public class Article {
 
     }
 
+    public Article(String name, String url, String section, String tags) {
+        this.name = name;
+        this.url = url;
+        this.section = section;
+        this.tags = tags;
+    }
+
     public int getId() {
         return id;
     }
