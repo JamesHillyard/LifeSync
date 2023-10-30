@@ -39,6 +39,12 @@ public class SleepData {
 
     }
 
+    public SleepData(int userid, Timestamp starttime, Timestamp endtime) {
+        this.userid = userid;
+        this.starttime = starttime;
+        this.endtime = endtime;
+    }
+
     public int getSleepid() {
         return sleepid;
     }

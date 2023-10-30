@@ -33,4 +33,7 @@ public class SleepDataService {
         return sleepDataDAO.findAllByUserid(userId);
     }
 
+    public void saveUserSleepData(SleepData newUserData) {
+        sleepDataDAO.save(newUserData);
+    }
 }

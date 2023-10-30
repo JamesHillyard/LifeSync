@@ -13,7 +13,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -52,7 +54,15 @@ public class SleepServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Timestamp starttime = Timestamp.valueOf(LocalDateTime.parse(request.getParameter("starttime")));
+        Timestamp endtime = Timestamp.valueOf(LocalDateTime.parse(request.getParameter("endtime")));
+
+        int userId = loadUserSleepData((LifeSyncUser) request.getSession().getAttribute("user")).getId();
+
+        SleepData newUserData = new SleepData(userId, starttime, endtime);
+        sleepDataService.saveUserSleepData(newUserData);
+
         response.sendRedirect(request.getContextPath() + "/hlsp/sleep");
     }
 

@@ -217,12 +217,19 @@
 <script>
     $(document).ready(function() {
         // Add a custom validation method to compare start and end times
-        $.validator.addMethod("endTimeLaterThanStartTime", function(value) {
-            const startTime = new Date($("#starttime").val());
-            const endTime = new Date(value);
+        $.validator.addMethod("endTimeLaterThanStartTime", function() {
+            var startDateTime = new Date($("#startSleep").val());
+            var endDateTime = new Date($("#endSleep").val());
 
-            // Check if end time is later than start time
-            return endTime > startTime;
+            // Extract date and time components separately
+            var startDate = startDateTime.toLocaleDateString();
+            var startTime = startDateTime.toLocaleTimeString();
+
+            var endDate = endDateTime.toLocaleDateString();
+            var endTime = endDateTime.toLocaleTimeString();
+
+            // Check if end date is later than start date, and if end time is later than start time
+            return (endDate > startDate) || (endDate === startDate && endTime > startTime);
         }, "End time must be later than start time");
 
         $("#sleepInputForm").validate({
