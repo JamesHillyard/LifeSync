@@ -216,13 +216,23 @@
 
 <script>
     $(document).ready(function() {
+        // Add a custom validation method to compare start and end times
+        $.validator.addMethod("endTimeLaterThanStartTime", function(value) {
+            const startTime = new Date($("#starttime").val());
+            const endTime = new Date(value);
+
+            // Check if end time is later than start time
+            return endTime > startTime;
+        }, "End time must be later than start time");
+
         $("#sleepInputForm").validate({
             rules: {
                 starttime: {
                     required: true
                 },
                 endtime: {
-                    required: true
+                    required: true,
+                    endTimeLaterThanStartTime: true
                 }
             },
             messages: {
