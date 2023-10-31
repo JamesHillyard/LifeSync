@@ -1,6 +1,6 @@
 package dev.james.lifesync.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 
@@ -12,10 +12,9 @@ public class SleepDataTest {
     public void testCreateSleepData() {
         long baselineTime = System.currentTimeMillis();
 
-        SleepData sleepData = new SleepData(1, 2, new Timestamp(baselineTime), new Timestamp(baselineTime + 3600000));
+        SleepData sleepData = new SleepData(2, new Timestamp(baselineTime), new Timestamp(baselineTime + 3600000));
         assertNotNull(sleepData);
 
-        assertEquals(1, sleepData.getSleepid());
         assertEquals(2, sleepData.getUserid());
         assertEquals(new Timestamp(baselineTime), sleepData.getStarttime());
         assertEquals(new Timestamp(baselineTime + 3600000), sleepData.getEndtime());
@@ -48,8 +47,8 @@ public class SleepDataTest {
 
     @Test
     public void testEqualsAndHashCode() {
-        SleepData sleepData1 = new SleepData(1, 2, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis() + 3600000));
-        SleepData sleepData2 = new SleepData(1, 2, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis() + 3600000));
+        SleepData sleepData1 = new SleepData(2, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis() + 3600000));
+        SleepData sleepData2 = new SleepData(2, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis() + 3600000));
 
         assertEquals(sleepData1, sleepData2);
         assertEquals(sleepData1.hashCode(), sleepData2.hashCode());
@@ -57,8 +56,8 @@ public class SleepDataTest {
 
     @Test
     public void testNotEquals() {
-        SleepData sleepData1 = new SleepData(1, 2, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis() + 3600000));
-        SleepData sleepData2 = new SleepData(3, 4, new Timestamp(System.currentTimeMillis() - 3600000), new Timestamp(System.currentTimeMillis()));
+        SleepData sleepData1 = new SleepData(2, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis() + 3600000));
+        SleepData sleepData2 = new SleepData(4, new Timestamp(System.currentTimeMillis() - 3600000), new Timestamp(System.currentTimeMillis()));
 
         assertNotEquals(sleepData1, sleepData2);
         assertNotEquals(sleepData1.hashCode(), sleepData2.hashCode());

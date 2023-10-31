@@ -28,8 +28,7 @@ public class SleepData {
     @Transient
     private long duration;
 
-    public SleepData(int sleepid, int userid, Timestamp starttime, Timestamp endtime) {
-        this.sleepid = sleepid;
+    public SleepData(int userid, Timestamp starttime, Timestamp endtime) {
         this.userid = userid;
         this.starttime = starttime;
         this.endtime = endtime;
@@ -37,12 +36,6 @@ public class SleepData {
 
     public SleepData() {
 
-    }
-
-    public SleepData(int userid, Timestamp starttime, Timestamp endtime) {
-        this.userid = userid;
-        this.starttime = starttime;
-        this.endtime = endtime;
     }
 
     public int getSleepid() {

@@ -2,7 +2,6 @@ package dev.james.lifesync.model;
 
 import dev.james.lifesync.constants.Sections;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.shaded.org.checkerframework.checker.units.qual.A;
 
 import java.util.List;
 
