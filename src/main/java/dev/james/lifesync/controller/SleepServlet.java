@@ -80,6 +80,10 @@ public class SleepServlet extends HttpServlet {
         Duration totalDuration = Duration.ZERO;
         int count = 0;
 
+        if (userSleepData.isEmpty()) {
+            return 0;
+        }
+
         for (SleepData sleepData : userSleepData) {
             Duration duration = Duration.between(sleepData.getStarttime().toLocalDateTime(), sleepData.getEndtime().toLocalDateTime());
             totalDuration = totalDuration.plus(duration);
