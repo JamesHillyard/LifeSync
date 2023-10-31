@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "LifeSyncUser")
+//@Table(name = "LifeSyncUser")
 public class LifeSyncUser {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
@@ -31,6 +31,13 @@ public class LifeSyncUser {
 
     public LifeSyncUser(int id, String firstname, String lastname, String username, String password) {
         this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.password = password;
+    }
+
+    public LifeSyncUser(String firstname, String lastname, String username, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;

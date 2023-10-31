@@ -57,7 +57,7 @@
                     </div>
                 </form>
                 <div class="text-center mt-3 gray-text">
-                    <a href="register.html" class="btn btn-link gray-text">Sign Up</a>
+                    <a href="${pageContext.request.contextPath}/signup" class="btn btn-link gray-text">Sign Up</a>
                 </div>
             </div>
         </div>

@@ -18,8 +18,8 @@ public class LifeSyncUserService {
         return lifeSyncUserDAO.findByUsername(username);
     }
 
-    public LifeSyncUser saveUser(LifeSyncUser user) {
-        return lifeSyncUserDAO.save(user);
+    public void saveUser(LifeSyncUser user) {
+        lifeSyncUserDAO.save(user);
     }
 
     public String getUserPassword(String username) {
