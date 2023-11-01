@@ -261,7 +261,6 @@
 <script>
     // JavaScript code to populate the chart with data
     var sleepData = [
-        // Replace this with your actual data in the format [{ date: 'YYYY-MM-DD', duration: X }, ...]
         <%-- Iterate through your processed sleep data and generate an array --%>
         <c:forEach items="${sleepData}" var="data">
         {
@@ -273,7 +272,7 @@
 
     var ctx = document.getElementById('sleepChart').getContext('2d');
     var chart = new Chart(ctx, {
-        type: 'bar', // You can change the chart type as needed (e.g., 'line')
+        type: 'bar',
         data: {
             labels: sleepData.map(item => item.date),
             datasets: [{
