@@ -23,7 +23,7 @@
                 <a class="nav-link" href="/hlsp/dashboard">Dashboard</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/hlsp/meals">Meals</a>
+                <a class="nav-link" href="/hlsp/nutrition">Nutrition</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/hlsp/exercise">Exercise</a>

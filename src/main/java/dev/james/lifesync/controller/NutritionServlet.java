@@ -8,12 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "MealsServlet", urlPatterns = "/hlsp/meals")
-public class MealsServlet extends HttpServlet {
+@WebServlet(name = "NutritionServlet", urlPatterns = "/hlsp/nutrition")
+public class NutritionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.sendRedirect(request.getContextPath() + "meals.jsp");
+        response.sendRedirect(request.getContextPath() + "nutrition.jsp");
     }
 
 }
