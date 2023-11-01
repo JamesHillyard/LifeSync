@@ -54,9 +54,7 @@ public class PasswordResetServletTest {
 
     @Test
     public void testPasswordResetServletRedirectToPasswordResetPage() throws IOException {
-        URL url = new URL(String.format("http://%s:%s/passwordreset",
-                "localhost",
-                springPort));
+        URL url = new URL(String.format("http://localhost:%s/passwordreset", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -67,9 +65,7 @@ public class PasswordResetServletTest {
 
     @Test
     public void testPasswordResetWithValidCredentials() throws IOException {
-        URL url = new URL(String.format("http://%s:%s/passwordreset",
-                "localhost",
-                springPort));
+        URL url = new URL(String.format("http://localhost:%s/passwordreset", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -85,9 +81,7 @@ public class PasswordResetServletTest {
 
     @Test
     public void testPasswordResetServletWithIncorrectUsernameCorrectPassword() throws IOException {
-        URL url = new URL(String.format("http://%s:%s/passwordreset",
-                "localhost",
-                springPort));
+        URL url = new URL(String.format("http://localhost:%s/passwordreset", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");

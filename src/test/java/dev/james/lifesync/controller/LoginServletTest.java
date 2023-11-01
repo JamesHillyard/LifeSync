@@ -54,9 +54,7 @@ public class LoginServletTest {
 
     @Test
     public void testLoginServletRedirectToLoginPage() throws IOException {
-        URL url = new URL(String.format("http://%s:%s/login",
-                "localhost",
-                springPort));
+        URL url = new URL(String.format("http://localhost:%s/login", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -67,9 +65,7 @@ public class LoginServletTest {
 
     @Test
     public void testLoginServletWithValidCredentials() throws IOException {
-        URL url = new URL(String.format("http://%s:%s/login",
-                "localhost",
-                springPort));
+        URL url = new URL(String.format("http://localhost:%s/login", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -85,9 +81,7 @@ public class LoginServletTest {
 
     @Test
     public void testLoginServletWithCorrectUsernameIncorrectPassword() throws IOException {
-        URL url = new URL(String.format("http://%s:%s/login",
-                "localhost",
-                springPort));
+        URL url = new URL(String.format("http://localhost:%s/login", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -102,9 +96,7 @@ public class LoginServletTest {
     
     @Test
     public void testLoginServletWithIncorrectUsernameCorrectPassword() throws IOException {
-        URL url = new URL(String.format("http://%s:%s/login",
-                "localhost",
-                springPort));
+        URL url = new URL(String.format("http://localhost:%s/login", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
