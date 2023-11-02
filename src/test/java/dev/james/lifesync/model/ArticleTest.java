@@ -2,6 +2,7 @@ package dev.james.lifesync.model;
 
 import dev.james.lifesync.constants.Sections;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.shaded.org.checkerframework.checker.units.qual.A;
 
 import java.util.List;
 
@@ -40,7 +41,6 @@ public class ArticleTest {
         } catch (NullPointerException ignored) {
             // This is considered the success event
         }
-
     }
 
     @Test
@@ -66,6 +66,8 @@ public class ArticleTest {
         Article article2 = new Article("James", "https://www.bbc.co.uk/test", "Sleep", "j,a,m,e,s");
 
         assertEquals(article1, article2);
+        assertTrue(article1.equals(article2));
+        assertTrue(article2.equals(article1));
         assertEquals(article2, article1);
         assertEquals(article1.hashCode(), article2.hashCode());
     }
@@ -77,7 +79,22 @@ public class ArticleTest {
 
         assertNotEquals(article1, article2);
         assertNotEquals(article2, article1);
+        assertFalse(article1.equals(article2));
+        assertFalse(article2.equals(article1));
         assertNotEquals(article1.hashCode(), article2.hashCode());
+    }
+
+    @Test
+    public void testEqualsOnSameObject() {
+        Article article = new Article("James", "https://www.bbc.co.uk/test", "Sleep", "j,a,m,e,s");
+        assertTrue(article.equals(article));
+    }
+
+    @Test
+    public void testGetSourceInvalidURLArticle() {
+        Article article = new Article();
+        article.setUrl("iminvalid");
+        assertNull(article.getSource());
     }
 
 }

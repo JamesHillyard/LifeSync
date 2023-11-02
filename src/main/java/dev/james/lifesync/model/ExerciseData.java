@@ -47,8 +47,6 @@ public class ExerciseData {
         this.caloriesBurnt = caloriesBurnt;
     }
 
-
-
     public int getId() {
         return id;
     }
@@ -67,7 +65,10 @@ public class ExerciseData {
 
     // This will capitalise the first letter
     public String getActivityName() {
-        return activityName.substring(0,1).toUpperCase() + activityName.substring(1);
+        if (activityName == null) {
+            return "";
+        }
+        return activityName.substring(0,1).toUpperCase() + activityName.substring(1).toLowerCase();
     }
 
     public void setActivityName(String activityName) {
