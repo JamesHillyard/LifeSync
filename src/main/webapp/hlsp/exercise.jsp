@@ -196,6 +196,11 @@
                             <div class="form-group">
                                 <label for="exerciseDetails">Exercise Details:</label>
                                 <input type="text" class="form-control custom-input" id="exerciseDetails" name="exerciseDetails">
+                                <div class="text-right mt-2">
+                                    <a href="#" data-toggle="modal" data-target="#needHelpModal" class="small text-muted">
+                                        Need Help?
+                                    </a>
+                                </div>
                             </div>
                             <div class="invalid-feedback">This field is required.</div>
                             <c:if test="${not empty dataEntryError}">
@@ -210,6 +215,21 @@
                     <div id="edit-exercise" class="tab-pane fade">
                         edit exercise
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Need Help Modal -->
+<div class="modal fade" id="needHelpModal" tabindex="-1" role="dialog" aria-labelledby="needHelpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div style="white-space: normal">
+                    LifeSync uses a natural language model for the input of exercise data. Simply type what you did!
+                    <br>
+                    Eg. "A 30 minute walk and 90 minutes rock climbing"
                 </div>
             </div>
         </div>
