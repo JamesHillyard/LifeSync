@@ -23,7 +23,7 @@
         <div class="col-md-5">
             <div class="center-vertically">
                 <div class="text-center mt-5">
-                    <img src="https://raw.githubusercontent.com/JamesHillyard/LifeSync/main/logo.png" alt="LifeSync Logo" width="200" class="logo-padding">
+                    <img src="/assets/logo.png" alt="LifeSync Logo" width="200" class="logo-padding">
                     <h2 class="title-colour">LifeSync</h2>
                 </div>
                 <form class="mt-4 form-padding" action="${pageContext.request.contextPath}/login" method="post" id="loginForm">

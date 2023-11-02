@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-//@Table(name = "LifeSyncUser")
 public class LifeSyncUser {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +36,9 @@ public class LifeSyncUser {
 
     @Transient
     private List<ExerciseData> exerciseData;
+
+    @Transient
+    private List<NutritionData> nutritionData;
 
     public LifeSyncUser(int id, String firstname, String lastname, String username, String password) {
         this.id = id;
@@ -111,6 +113,14 @@ public class LifeSyncUser {
 
     public void setExerciseData(List<ExerciseData> exerciseData) {
         this.exerciseData = exerciseData;
+    }
+
+    public List<NutritionData> getNutritionData() {
+        return nutritionData;
+    }
+
+    public void setNutritionData(List<NutritionData> nutritionData) {
+        this.nutritionData = nutritionData;
     }
 
     @Override

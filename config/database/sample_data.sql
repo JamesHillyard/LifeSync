@@ -15,3 +15,7 @@ INSERT INTO `lifesync_database`.`Article` (`id`, `name`, `url`, `section`, `tags
 INSERT INTO `lifesync_database`.`ExerciseData` (`id`, `userid`, `activityName`, `date`, `duration`, `caloriesBurnt`) VALUES ('1', '1', 'skiing', '2023-10-30', '80', '653');
 INSERT INTO `lifesync_database`.`ExerciseData` (`id`, `userid`, `activityName`, `date`, `duration`, `caloriesBurnt`) VALUES ('2', '1', 'skiing', '2023-10-29', '80', '653');
 INSERT INTO `lifesync_database`.`ExerciseData` (`id`, `userid`, `activityName`, `date`, `duration`, `caloriesBurnt`) VALUES ('3', '1', 'walking', '2023-10-29', '30', '123');
+
+INSERT INTO `lifesync_database`.`NutritionData` (`id`, `userid`, `date`, `foodName`, `calories`, `fat`, `sugar`) VALUES ('1', '1', '2023-10-30', 'Chips', '350', '5.6', '10.4');
+INSERT INTO `lifesync_database`.`NutritionData` (`id`, `userid`, `date`, `foodName`, `calories`, `fat`, `sugar`) VALUES ('2', '1', '2023-10-30', 'Cheese Burger', '1600', '20.8', '9.8');
+
