@@ -11,3 +11,7 @@ INSERT INTO `lifesync_database`.`SleepData` (`userid`, `starttime`, `endtime`) V
 INSERT INTO `lifesync_database`.`Article` (`id`, `name`, `url`, `section`, `tags`) VALUES ('2', 'How can I get better quality sleep?', 'https://www.bbc.co.uk/programmes/articles/5wd7xyWbW5vqnYCZ2xdMFXB/how-can-i-get-better-quality-sleep', 'Sleep', 'quality');
 INSERT INTO `lifesync_database`.`Article` (`id`, `name`, `url`, `section`, `tags`) VALUES ('3', 'My five tips to help improve your sleep', 'https://www.bbc.co.uk/programmes/articles/5vMxkF64jplCjgjzVhb7B5R/my-five-tips-to-help-improve-your-sleep', 'Sleep', 'improve');
 INSERT INTO `lifesync_database`.`Article` (`id`, `name`, `url`, `section`, `tags`) VALUES ('4', 'How to fall asleep faster and sleep better', 'https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-fall-asleep-faster-and-sleep-better/', 'Sleep', 'faster');
+
+INSERT INTO `lifesync_database`.`ExerciseData` (`id`, `userid`, `activityName`, `date`, `duration`, `caloriesBurnt`) VALUES ('1', '1', 'skiing', '2023-10-30', '80', '653');
+INSERT INTO `lifesync_database`.`ExerciseData` (`id`, `userid`, `activityName`, `date`, `duration`, `caloriesBurnt`) VALUES ('2', '1', 'skiing', '2023-10-29', '80', '653');
+INSERT INTO `lifesync_database`.`ExerciseData` (`id`, `userid`, `activityName`, `date`, `duration`, `caloriesBurnt`) VALUES ('3', '1', 'walking', '2023-10-29', '30', '123');

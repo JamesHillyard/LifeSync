@@ -22,4 +22,8 @@ public class ArticleRecommender {
     public List<Article> getSleepArticles() {
         return articleService.getArticlesForSection(String.valueOf(Sections.Sleep));
     }
+
+    public List<Article> getExerciseArticles() {
+        return articleService.getArticlesForSection(String.valueOf(Sections.Exercise));
+    }
 }

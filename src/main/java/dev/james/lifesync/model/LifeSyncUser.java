@@ -29,6 +29,9 @@ public class LifeSyncUser {
     @Transient
     private List<SleepData> sleepData;
 
+    @Transient
+    private List<ExerciseData> exerciseData;
+
     public LifeSyncUser(int id, String firstname, String lastname, String username, String password) {
         this.id = id;
         this.firstname = firstname;
@@ -94,6 +97,14 @@ public class LifeSyncUser {
 
     public void setSleepData(List<SleepData> sleepData) {
         this.sleepData = sleepData;
+    }
+
+    public List<ExerciseData> getExerciseData() {
+        return exerciseData;
+    }
+
+    public void setExerciseData(List<ExerciseData> exerciseData) {
+        this.exerciseData = exerciseData;
     }
 
     @Override

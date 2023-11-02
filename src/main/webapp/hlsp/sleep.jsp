@@ -77,7 +77,9 @@
         <!-- Top-left quadrant for the chart -->
         <div class="col-md-6 col-sm-12">
             <div class="quadrant-container quadrant-top">
-                <h4>Sleep Duration Chart for the Past 7 Days</h4>
+                <div class="text-center">
+                    <h4>Sleep Duration Chart for the Past 7 Days</h4>
+                </div>
                 <canvas id="sleepChart" width="300" height="125"></canvas>
             </div>
         </div>

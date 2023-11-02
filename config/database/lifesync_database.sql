@@ -22,7 +22,23 @@ CREATE TABLE IF NOT EXISTS `SleepData` (
                                          ON DELETE NO ACTION
                                          ON UPDATE NO ACTION
 );
-CREATE TABLE `lifesync_database`.`Article` (
+CREATE TABLE IF NOT EXISTS `lifesync_database`.`ExerciseData` (
+                                `id` INT NOT NULL AUTO_INCREMENT,
+                                `userid` INT NOT NULL,
+                                `activityName` VARCHAR(45) NOT NULL,
+                                `date` DATE NOT NULL,
+                                `duration` INT NOT NULL,
+                                `caloriesBurnt` INT NOT NULL,
+                                PRIMARY KEY (`id`),
+                                INDEX `userid_idx` (`userid` ASC) VISIBLE,
+                                CONSTRAINT `fk_userid`
+                                    FOREIGN KEY (`userid`)
+                                        REFERENCES `lifesync_database`.`LifeSyncUser` (`id`)
+                                        ON DELETE NO ACTION
+                                        ON UPDATE NO ACTION
+);
+# Nutrition Data is likely going to need an object to maintain the actual data, then the NutritionData is just the prompt and a key to the actual details
+CREATE TABLE IF NOT EXISTS `lifesync_database`.`Article` (
                                                `id` INT NOT NULL AUTO_INCREMENT,
                                                `name` LONGTEXT NOT NULL,
                                                `url` LONGTEXT NOT NULL,

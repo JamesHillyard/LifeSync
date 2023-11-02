@@ -67,11 +67,18 @@
             <version>8.0.33</version>
         </dependency>
 
-
+        <!-- Jasper for serving JSPs on Embedded Tomcat -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Unirest for HTTP Requests -->
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.14.5</version>
         </dependency>
 
         <!--    TEST DEPENDENCIES    -->
