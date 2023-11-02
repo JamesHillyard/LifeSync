@@ -2,11 +2,15 @@ package dev.james.lifesync.model;
 
 import dev.james.lifesync.constants.Sections;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.shaded.org.checkerframework.checker.units.qual.A;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class ArticleTest {
 

@@ -1,11 +1,9 @@
 package dev.james.lifesync.controller;
 
 import dev.james.lifesync.article.ArticleRecommender;
-import dev.james.lifesync.dao.ArticleService;
 import dev.james.lifesync.dao.SleepDataService;
 import dev.james.lifesync.model.LifeSyncUser;
 import dev.james.lifesync.model.SleepData;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
