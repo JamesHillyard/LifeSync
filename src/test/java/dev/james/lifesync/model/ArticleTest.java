@@ -89,6 +89,14 @@ public class ArticleTest {
     }
 
     @Test
+    public void testEqualsWithDifferentObject() {
+        Article article = new Article("James", "https://www.bbc.co.uk/test", "Sleep", "j,a,m,e,s");
+        String string = "not an article!";
+
+        assertFalse(article.equals(string));
+    }
+
+    @Test
     public void testEqualsOnSameObject() {
         Article article = new Article("James", "https://www.bbc.co.uk/test", "Sleep", "j,a,m,e,s");
         assertTrue(article.equals(article));

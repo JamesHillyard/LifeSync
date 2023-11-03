@@ -44,9 +44,4 @@ public class SessionFilter implements Filter {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
         }
     }
-
-    @Override
-    public void destroy() {
-        // No cleanup required
-    }
 }

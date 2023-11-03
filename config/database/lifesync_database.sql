@@ -53,8 +53,6 @@ CREATE TABLE IF NOT EXISTS `lifesync_database`.`ExerciseData` (
                                         ON DELETE NO ACTION
                                         ON UPDATE NO ACTION
 );
-# Nutrition Data is likely going to need an object to maintain the actual data, then the NutritionData is just the prompt and a key to the actual details
-
 CREATE TABLE IF NOT EXISTS `lifesync_database`.`Article` (
                                                `id` INT NOT NULL AUTO_INCREMENT,
                                                `name` LONGTEXT NOT NULL,

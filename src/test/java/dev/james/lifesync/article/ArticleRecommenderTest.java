@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
@@ -21,9 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 public class ArticleRecommenderTest {
-
-    @LocalServerPort
-    private int springPort;
 
     @Container
     public static MySQLContainer<?> mysqlContainer =
@@ -55,6 +51,26 @@ public class ArticleRecommenderTest {
 
         for(Article article : articleList) {
             assertEquals("Sleep", article.getSection());
+        }
+    }
+
+    @Test
+    public void testRecommendedExerciseArticles() {
+        List<Article> articleList = articleRecommender.getExerciseArticles();
+        assertEquals(2, articleList.size());
+
+        for(Article article : articleList) {
+            assertEquals("Exercise", article.getSection());
+        }
+    }
+
+    @Test
+    public void testRecommendedNutritionArticles() {
+        List<Article> articleList = articleRecommender.getNutritionArticles();
+        assertEquals(1, articleList.size());
+
+        for(Article article : articleList) {
+            assertEquals("Nutrition", article.getSection());
         }
     }
 

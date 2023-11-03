@@ -27,7 +27,7 @@ public class ArticleRecommender {
         return articleService.getArticlesForSection(String.valueOf(Sections.Exercise));
     }
 
-    public Object getNutritionArticles() {
+    public List<Article> getNutritionArticles() {
         return articleService.getArticlesForSection(String.valueOf(Sections.Nutrition));
     }
 }
