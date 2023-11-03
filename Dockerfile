@@ -12,6 +12,6 @@ COPY pom.xml .
 COPY src ./src
 
 # Compile the application
-RUN mvn -f /lifesync/pom.xml clean install
+RUN mvn -f /lifesync/pom.xml clean install -DskipTests
 
-CMD ["java", "-jar", "/lifesync/target/LifeSync.war"]
+CMD ["java", "-jar", "/lifesync/target/LifeSync.war","--spring.profiles.active=docker"]
