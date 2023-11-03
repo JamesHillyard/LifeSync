@@ -18,9 +18,11 @@ import java.io.IOException;
  * <p>
  * This Filter is used to ensure a user has a session when trying to access pages in the LifeSync application.
  * <p>
- * This filter excludes `/login` and `/login.jsp` to prevent a too many redirects error, as these pages don't require
- * a session to be accessed. This is hardcoded and would need expanding if there are more pages that do not require a
- * session
+ * This filter applies login verification to all pages under `/hlsp` as these pages require user data.
+ * <p>
+ * Any pages that do not require user data should be placed at the context root '/'. Frontend assets in
+ * `src/main/resources` are also served at the context root. Filtering the context root will block the frontend
+ * accessing these compoenents
  */
 @WebFilter(filterName = "SessionFilter", urlPatterns = "/hlsp/*")
 public class SessionFilter implements Filter {
