@@ -166,7 +166,7 @@
 
                     5. Cookies
                     <br><br>
-                    We may use cookies to collect information about your use of our website. You can manage your cookie preferences through your browser settings.
+                    In order to provide you with a seamless and secure experience on our website, we use cookies for session management. These cookies are essential for enabling core functionalities, such as user authentication and maintaining your session while you navigate our site. They do not collect any personal information and are strictly required for the proper functioning of our website. By continuing to use our services, you consent to the use of these session management cookies.
                     <br><br>
 
                     6. Changes to This Privacy Policy
