@@ -5,7 +5,7 @@
 
     <groupId>dev.james</groupId>
     <artifactId>LifeSync</artifactId>
-    <version>0.0.2</version>
+    <version>0.1.0</version>
     <packaging>war</packaging>
 
     <name>DC3AWD_Coursework</name>
