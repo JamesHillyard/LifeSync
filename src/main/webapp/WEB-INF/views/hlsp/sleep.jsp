@@ -180,6 +180,7 @@
                                         <td>${sleepData.getDurationInHoursAndMinutesHumanReadable()}</td>
                                     </tr>
                                 </c:forEach>
+
                                 </tbody>
                             </table>
                         </div>
