@@ -15,14 +15,14 @@ import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/signup")
-public class SignupServlet extends HttpServlet {
+public class SignupController extends HttpServlet {
 
-    Logger LOGGER = Logger.getLogger(SignupServlet.class.getName());
+    Logger LOGGER = Logger.getLogger(SignupController.class.getName());
 
     private final LifeSyncUserService lifeSyncUserService;
 
     @Autowired
-    public SignupServlet(LifeSyncUserService lifeSyncUserService) {
+    public SignupController(LifeSyncUserService lifeSyncUserService) {
         this.lifeSyncUserService = lifeSyncUserService;
     }
 

@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-public class SignupServletTest {
+public class LoginControllerTest {
 
     @LocalServerPort
     private int springPort;
@@ -43,7 +43,7 @@ public class SignupServletTest {
     @BeforeAll
     public static void setUpDatabase() {
         // Testcontainers doesn't support multiple init scripts. This is a workaround to run multiple https://github.com/testcontainers/testcontainers-java/issues/2232
-        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/controller/SignupServletTest.sql");
+        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/controller/LoginServletTest.sql");
         mysqlContainer.start();
     }
 
@@ -53,8 +53,8 @@ public class SignupServletTest {
     }
 
     @Test
-    public void testSignupServletRedirectToSignupPage() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/signup", springPort));
+    public void testLoginServletRedirectToLoginPage() throws IOException {
+        URL url = new URL(String.format("http://localhost:%s/login", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -64,51 +64,48 @@ public class SignupServletTest {
     }
 
     @Test
-    public void testSignupServletExistingNameExistingUsername() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/signup", springPort));
+    public void testLoginServletWithValidCredentials() throws IOException {
+        URL url = new URL(String.format("http://localhost:%s/login", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
 
-        String parameters = "firstname=james&lastname=hillyard&username=jhillyard&password=test";
+        String parameters = "username=jhillyard&password=test";
         connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
 
         int responseCode = connection.getResponseCode();
 
-        assertEquals(409, responseCode); // 409 returned as the username exists
+        assertEquals(200, responseCode); // 301 returned due to the redirect to /hlsp/dashboard
     }
 
     @Test
-    public void testSignupServletExistingNameDifferentUsername() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/signup", springPort));
+    public void testLoginServletWithCorrectUsernameIncorrectPassword() throws IOException {
+        URL url = new URL(String.format("http://localhost:%s/login", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
 
-        String parameters = "firstname=james&lastname=hillyard&username=jhillyard1&password=test";
+        String parameters = "username=jhillyard&password=wrongpassword";
         connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
 
         int responseCode = connection.getResponseCode();
-
-        assertEquals(201, responseCode); // 201 Created returned as the user created
+        assertEquals(401, responseCode);
     }
-
+    
     @Test
-    public void testSignupServletDifferentNameDifferentUsername() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/signup", springPort));
+    public void testLoginServletWithIncorrectUsernameCorrectPassword() throws IOException {
+        URL url = new URL(String.format("http://localhost:%s/login", springPort));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
 
-        String parameters = "firstname=Sam&lastname=Cole&username=samcole&password=Football3";
+        String parameters = "username=ahillyard&password=test";
         connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
 
         int responseCode = connection.getResponseCode();
-
-        assertEquals(201, responseCode); // 201 Created returned as the user created
+        assertEquals(401, responseCode);
     }
-
 }

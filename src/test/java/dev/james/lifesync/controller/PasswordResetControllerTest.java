@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-public class PasswordResetServletTest {
+public class PasswordResetControllerTest {
 
     @LocalServerPort
     private int springPort;

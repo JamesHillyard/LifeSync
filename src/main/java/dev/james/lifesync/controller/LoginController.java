@@ -18,16 +18,16 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping("/login")
 @SessionAttributes("user")
-public class LoginServlet {
+public class LoginController {
 
     private final LifeSyncUserService lifeSyncUserService;
 
     @Autowired
-    public LoginServlet(LifeSyncUserService lifeSyncUserService) {
+    public LoginController(LifeSyncUserService lifeSyncUserService) {
         this.lifeSyncUserService = lifeSyncUserService;
     }
 
-    Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
+    Logger LOGGER = Logger.getLogger(LoginController.class.getName());
 
     private void authenticateUser(String username, String password) throws AuthenticationException {
         String passwordInDatabase = lifeSyncUserService.getUserPassword(username);

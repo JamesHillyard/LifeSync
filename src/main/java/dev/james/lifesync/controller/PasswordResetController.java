@@ -14,14 +14,14 @@ import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/passwordreset")
-public class PasswordResetServlet {
+public class PasswordResetController {
 
     final Logger LOGGER = Logger.getLogger(LogoutServlet.class.getName());
 
     private final LifeSyncUserService lifeSyncUserService;
 
     @Autowired
-    public PasswordResetServlet(LifeSyncUserService lifeSyncUserService) {
+    public PasswordResetController(LifeSyncUserService lifeSyncUserService) {
         this.lifeSyncUserService = lifeSyncUserService;
     }
 
