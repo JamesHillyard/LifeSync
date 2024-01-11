@@ -2,17 +2,19 @@ package dev.james.lifesync.controller;
 
 import dev.james.lifesync.dao.LifeSyncUserService;
 import dev.james.lifesync.model.LifeSyncUser;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 
-@WebServlet(name = "SignupServlet", urlPatterns = "/signup")
+@Controller
+@RequestMapping("/signup")
 public class SignupServlet extends HttpServlet {
 
     Logger LOGGER = Logger.getLogger(SignupServlet.class.getName());
@@ -24,34 +26,30 @@ public class SignupServlet extends HttpServlet {
         this.lifeSyncUserService = lifeSyncUserService;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("signup.jsp").forward(request, response);
+    @GetMapping
+    public String showSignupPage() {
+        return "signup";
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    @PostMapping
+    public String registerUser(@RequestParam("firstname") String firstname,
+                               @RequestParam("lastname") String lastname,
+                               @RequestParam("username") String username,
+                               @RequestParam("password") String password,
+                               Model model) {
 
         if (!usernameAvailable(username)) {
             LOGGER.fine("New User " + username + " could not register as username is taken.");
-            response.setStatus(HttpServletResponse.SC_CONFLICT);
-            request.setAttribute("error", "Username " + username + " is already taken.");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
-            return;
+            model.addAttribute("error", "Username " + username + " is already taken.");
+            return "signup";
         }
 
         LifeSyncUser user = new LifeSyncUser(firstname, lastname, username, password);
         saveUser(user);
 
         LOGGER.fine(String.format("%s %s has successfully registered as %s", firstname, lastname, username));
-        response.setStatus(HttpServletResponse.SC_CREATED);
-
-        request.setAttribute("successMessage", "Registered Successfully");
-        request.getRequestDispatcher("signup.jsp").forward(request, response);
+        model.addAttribute("successMessage", "Registered Successfully");
+        return "signup";
     }
 
     private void saveUser(LifeSyncUser user) {
