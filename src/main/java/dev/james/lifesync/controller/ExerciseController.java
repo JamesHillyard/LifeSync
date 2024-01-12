@@ -1,5 +1,6 @@
 package dev.james.lifesync.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.james.lifesync.article.ArticleRecommender;
@@ -55,7 +56,7 @@ public class ExerciseController {
         return "redirect:/hlsp/exercise";
     }
 
-    private List<ExerciseData> processUserInput(int userId, Date date, String exerciseDetails) {
+    protected List<ExerciseData> processUserInput(int userId, Date date, String exerciseDetails) {
         HttpResponse<String> nutritionixResponse = Unirest.post("https://trackapi.nutritionix.com/v2/natural/exercise")
                 .header("x-app-id", "75d270c9") //TODO: Store these as secrets
                 .header("x-app-key", "27500d0d891f227514f6f2a9aabc698a") //TODO: Store these as secrets
@@ -79,8 +80,8 @@ public class ExerciseController {
                     newExercise.add(new ExerciseData(userId, name, date, duration, nfCalories));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
         return newExercise;
@@ -106,7 +107,7 @@ public class ExerciseController {
         return "hlsp/exercise";
     }
 
-    public int getAverageDurationInMinutes(List<ExerciseData> userExerciseData) {
+    protected int getAverageDurationInMinutes(List<ExerciseData> userExerciseData) {
         if (userExerciseData == null || userExerciseData.isEmpty()) {
             return 0;
         }
@@ -122,7 +123,7 @@ public class ExerciseController {
         return totalDurationInMinutes / numberOfUniqueDates;
     }
 
-    public String getAverageDurationInHoursAndMinutesHumanReadable(int averageDurationInMinutes) {
+    protected String getAverageDurationInHoursAndMinutesHumanReadable(int averageDurationInMinutes) {
         if (averageDurationInMinutes > 0) {
             return String.format("%d Hours %d Minutes",
                     Duration.ofMinutes(averageDurationInMinutes).toHoursPart(),
@@ -132,7 +133,7 @@ public class ExerciseController {
         }
     }
 
-    private int calculateAverageCaloriesBurnt(List<ExerciseData> userExerciseData) {
+    protected int calculateAverageCaloriesBurnt(List<ExerciseData> userExerciseData) {
         if (userExerciseData == null || userExerciseData.isEmpty()) {
             return 0;
         }
@@ -150,7 +151,7 @@ public class ExerciseController {
 
     // To display the chart correctly, the exercise data needs grouping into days and amalgamating into one ExerciseData object
     // This is a transient state and should never be pushed to the database.
-    private List<ExerciseData> groupExerciseData(List<ExerciseData> userExerciseData) {
+    protected List<ExerciseData> groupExerciseData(List<ExerciseData> userExerciseData) {
         // Create a HashMap to store the accumulated calories and duration for each date
         Map<Date, int[]> dateMetricsMap = new HashMap<>();
         List<ExerciseData> groupExerciseData = new ArrayList<>();
