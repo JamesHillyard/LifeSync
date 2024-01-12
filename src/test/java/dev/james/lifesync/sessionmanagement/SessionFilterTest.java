@@ -34,7 +34,7 @@ class SessionFilterTest {
         session.setAttribute("user", new LifeSyncUser());
 
         // Mock the absence of HttpSession by setting it to null
-        mockMvc.perform(get("/hlsp/dashboard.jsp")
+        mockMvc.perform(get("/hlsp/dashboard")
                         .session(session))
                         .andExpect(status().isOk());
     }
@@ -45,14 +45,14 @@ class SessionFilterTest {
         session.setAttribute("user", new LifeSyncUser());
 
         // Mock the absence of HttpSession by setting it to null
-        mockMvc.perform(get("/login.jsp")
+        mockMvc.perform(get("/login")
                         .session(session))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testNoUserSession_tryAccessDashboard() throws Exception {
-        mockMvc.perform(get("/hlsp/dashboard.jsp"))
+        mockMvc.perform(get("/hlsp/dashboard"))
                 .andExpect(status().is3xxRedirection());
     }
 
@@ -79,7 +79,7 @@ class SessionFilterTest {
         session.setAttribute("KeyIsNotUser", new LifeSyncUser());
 
         // Mock the absence of HttpSession by setting it to null
-        mockMvc.perform(get("/hlsp/dashboard.jsp")
+        mockMvc.perform(get("/hlsp/dashboard")
                         .session(session))
                 .andExpect(status().is3xxRedirection());
     }
