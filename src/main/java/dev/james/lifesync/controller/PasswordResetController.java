@@ -1,7 +1,7 @@
 package dev.james.lifesync.controller;
 
 import dev.james.lifesync.dao.LifeSyncUserService;
-import dev.james.lifesync.model.LifeSyncUser;
+import dev.james.lifesync.entity.LifeSyncUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

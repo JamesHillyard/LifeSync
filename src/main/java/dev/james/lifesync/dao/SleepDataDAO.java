@@ -1,6 +1,6 @@
 package dev.james.lifesync.dao;
 
-import dev.james.lifesync.model.SleepData;
+import dev.james.lifesync.entity.SleepData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

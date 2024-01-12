@@ -1,6 +1,6 @@
 package dev.james.lifesync.article;
 
-import dev.james.lifesync.model.Article;
+import dev.james.lifesync.entity.Article;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package dev.james.lifesync.model;
+package dev.james.lifesync.entity;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
 package dev.james.lifesync.dao;
 
-import dev.james.lifesync.model.ExerciseData;
+import dev.james.lifesync.entity.ExerciseData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

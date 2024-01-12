@@ -1,4 +1,4 @@
-package dev.james.lifesync.model;
+package dev.james.lifesync.entity;
 
 import dev.james.lifesync.constants.Sections;
 import org.junit.jupiter.api.Test;

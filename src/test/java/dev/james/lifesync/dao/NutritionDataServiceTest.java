@@ -1,6 +1,6 @@
 package dev.james.lifesync.dao;
 
-import dev.james.lifesync.model.NutritionData;
+import dev.james.lifesync.entity.NutritionData;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

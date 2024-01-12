@@ -1,6 +1,6 @@
 package dev.james.lifesync.dao;
 
-import dev.james.lifesync.model.ExerciseData;
+import dev.james.lifesync.entity.ExerciseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package dev.james.lifesync.dao;
 
-import dev.james.lifesync.model.SleepData;
+import dev.james.lifesync.entity.SleepData;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

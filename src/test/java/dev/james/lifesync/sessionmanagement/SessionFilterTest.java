@@ -1,6 +1,6 @@
 package dev.james.lifesync.sessionmanagement;
 
-import dev.james.lifesync.model.LifeSyncUser;
+import dev.james.lifesync.entity.LifeSyncUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

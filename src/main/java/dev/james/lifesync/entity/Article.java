@@ -1,4 +1,4 @@
-package dev.james.lifesync.model;
+package dev.james.lifesync.entity;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
