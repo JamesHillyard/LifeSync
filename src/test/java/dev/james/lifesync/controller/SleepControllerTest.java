@@ -19,7 +19,6 @@ import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -109,7 +108,7 @@ class SleepControllerTest {
                 new SleepData(1, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now().plusHours(7)))
         );
 
-        int result = invokeGetPercentageOfDaysSleepOverRecommended(sleepController, sleepDataList);
+        int result = sleepController.getPercentageOfDaysSleepOverRecommended(sleepDataList);
 
         assertEquals(33, result); // Recommended is 8 hours so 1/3 or 33% meet this condition
     }
@@ -118,34 +117,22 @@ class SleepControllerTest {
     void testGetAverageSleepDurationInMinutesNoData() throws Exception {
         List<SleepData> sleepDataList = List.of();
 
-        long result = invokeGetAverageSleepDurationInMinutes(sleepController, sleepDataList);
+        long result = sleepController.getAverageSleepDurationInMinutes(sleepDataList);
 
         assertEquals(0, result); // Assuming the average sleep duration is 7 hours (420 minutes)
     }
 
     @Test
-    void testGetAverageSleepDurationInMinutes() throws Exception {
+    void testGetAverageSleepDurationInMinutes() {
         List<SleepData> sleepDataList = Arrays.asList(
                 new SleepData(1, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now().plusHours(6))),
                 new SleepData(1, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now().plusHours(8))),
                 new SleepData(1, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now().plusHours(7)))
         );
 
-        long result = invokeGetAverageSleepDurationInMinutes(sleepController, sleepDataList);
+        long result = sleepController.getAverageSleepDurationInMinutes(sleepDataList);
 
         assertEquals(420, result); // Assuming the average sleep duration is 7 hours (420 minutes)
-    }
-
-    private int invokeGetPercentageOfDaysSleepOverRecommended(SleepController sleepController, List<SleepData> sleepDataList) throws Exception {
-        Method method = SleepController.class.getDeclaredMethod("getPercentageOfDaysSleepOverRecommended", List.class);
-        method.setAccessible(true);
-        return (int) method.invoke(sleepController, sleepDataList);
-    }
-
-    private long invokeGetAverageSleepDurationInMinutes(SleepController sleepController, List<SleepData> sleepDataList) throws Exception {
-        Method method = SleepController.class.getDeclaredMethod("getAverageSleepDurationInMinutes", List.class);
-        method.setAccessible(true);
-        return (long) method.invoke(sleepController, sleepDataList);
     }
 
 

@@ -67,7 +67,7 @@ public class SleepController {
         return "redirect:/hlsp/sleep";
     }
 
-    private int getPercentageOfDaysSleepOverRecommended(List<SleepData> userSleepData) {
+    protected int getPercentageOfDaysSleepOverRecommended(List<SleepData> userSleepData) {
         int total = userSleepData.size();
         int aboveRecommended = (int) userSleepData.stream()
                 .filter(sleepData -> sleepData.getDurationInHoursAndMinutes() >= RECOMMENDED_SLEEP_DURATION)
@@ -77,7 +77,7 @@ public class SleepController {
         return Math.toIntExact(Math.round(percentage));
     }
 
-    public long getAverageSleepDurationInMinutes(List<SleepData> userSleepData) {
+    protected long getAverageSleepDurationInMinutes(List<SleepData> userSleepData) {
         Duration totalDuration = Duration.ZERO;
         int count = 0;
 
