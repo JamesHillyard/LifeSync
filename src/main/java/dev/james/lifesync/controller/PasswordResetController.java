@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 @RequestMapping("/passwordreset")
 public class PasswordResetController {
 
-    final Logger LOGGER = Logger.getLogger(LogoutServlet.class.getName());
+    final Logger LOGGER = Logger.getLogger(LogoutController.class.getName());
 
     private final LifeSyncUserService lifeSyncUserService;
 

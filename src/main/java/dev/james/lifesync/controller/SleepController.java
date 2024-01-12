@@ -4,21 +4,24 @@ import dev.james.lifesync.article.ArticleRecommender;
 import dev.james.lifesync.dao.SleepDataService;
 import dev.james.lifesync.model.LifeSyncUser;
 import dev.james.lifesync.model.SleepData;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Logger;
 
-@WebServlet(name = "SleepServlet", urlPatterns = "/hlsp/sleep")
-public class SleepServlet extends HttpServlet {
+@Controller
+@RequestMapping("/hlsp/sleep")
+public class SleepController {
 
     private final double RECOMMENDED_SLEEP_DURATION = 8.0;
     // TODO: This should be determined by the timeRange cookie. But for now it can only be 7
@@ -28,40 +31,40 @@ public class SleepServlet extends HttpServlet {
     private final ArticleRecommender articleRecommender;
 
     @Autowired
-    public SleepServlet(SleepDataService sleepDataService, ArticleRecommender articleRecommender) {
+    public SleepController(SleepDataService sleepDataService, ArticleRecommender articleRecommender) {
         this.sleepDataService = sleepDataService;
         this.articleRecommender = articleRecommender;
     }
 
-    Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
+    Logger LOGGER = Logger.getLogger(SleepController.class.getName());
 
-    private LifeSyncUser loadUserSleepData(LifeSyncUser user) {
+    private void loadUserSleepData(LifeSyncUser user) {
         user.setSleepData(sleepDataService.getUserSleepData(user.getId()));
-        return user;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        LifeSyncUser user = loadUserSleepData((LifeSyncUser) request.getSession().getAttribute("user"));
+    @GetMapping
+    public String getSleepPage(Model model, @SessionAttribute("user") LifeSyncUser user) {
+        loadUserSleepData(user);
 
-        request.getSession().setAttribute("sleepData", user.getSleepData());
-        request.getSession().setAttribute("percentageDaysSleepOverRecommended", getPercentageOfDaysSleepOverRecommended(user.getSleepData()));
-        request.getSession().setAttribute("averageSleepDuration", getAverageSleepDurationInMinutes(user.getSleepData()));
-        request.getSession().setAttribute("articles", articleRecommender.getSleepArticles());
-        response.sendRedirect(request.getContextPath() + "sleep.jsp");
+        model.addAttribute("sleepData", user.getSleepData());
+        model.addAttribute("percentageDaysSleepOverRecommended", getPercentageOfDaysSleepOverRecommended(user.getSleepData()));
+        model.addAttribute("averageSleepDuration", getAverageSleepDurationInMinutes(user.getSleepData()));
+        model.addAttribute("articles", articleRecommender.getSleepArticles());
+
+        return "hlsp/sleep";
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Timestamp starttime = Timestamp.valueOf(LocalDateTime.parse(request.getParameter("starttime")));
-        Timestamp endtime = Timestamp.valueOf(LocalDateTime.parse(request.getParameter("endtime")));
+    @PostMapping
+    protected String saveSleepData(@RequestParam("starttime") String starttimeParam,
+                                   @RequestParam("endtime") String endtimeParam,
+                                   @SessionAttribute("user") LifeSyncUser user) {
+        Timestamp starttime = Timestamp.valueOf(LocalDateTime.parse(starttimeParam));
+        Timestamp endtime = Timestamp.valueOf(LocalDateTime.parse(endtimeParam));
 
-        int userId = loadUserSleepData((LifeSyncUser) request.getSession().getAttribute("user")).getId();
-
-        SleepData newUserData = new SleepData(userId, starttime, endtime);
+        SleepData newUserData = new SleepData(user.getId(), starttime, endtime);
         sleepDataService.saveUserSleepData(newUserData);
 
-        response.sendRedirect(request.getContextPath() + "/hlsp/sleep");
+        return "redirect:/hlsp/sleep";
     }
 
     private int getPercentageOfDaysSleepOverRecommended(List<SleepData> userSleepData) {

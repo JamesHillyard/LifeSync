@@ -6,16 +6,17 @@ import dev.james.lifesync.article.ArticleRecommender;
 import dev.james.lifesync.dao.NutritionDataService;
 import dev.james.lifesync.model.LifeSyncUser;
 import dev.james.lifesync.model.NutritionData;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,28 +24,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "NutritionServlet", urlPatterns = "/hlsp/nutrition")
-public class NutritionServlet extends HttpServlet {
+@Controller
+@RequestMapping("/hlsp/nutrition")
+public class NutritionController {
 
     private final NutritionDataService nutritionDataService;
     private final ArticleRecommender articleRecommender;
 
     @Autowired
-    public NutritionServlet(NutritionDataService nutritionDataService, ArticleRecommender articleRecommender) {
+    public NutritionController(NutritionDataService nutritionDataService, ArticleRecommender articleRecommender) {
         this.nutritionDataService = nutritionDataService;
         this.articleRecommender = articleRecommender;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Date date = Date.valueOf((request.getParameter("date")));
-        String nutritionDetails = request.getParameter("nutritionDetails");
-        int userId = ((LifeSyncUser) request.getSession().getAttribute("user")).getId();
+    @PostMapping
+    public String saveNutritionData(@RequestParam("date") String dateString,
+                                    @RequestParam("nutritionDetails") String nutritionDetails,
+                                    @SessionAttribute("user") LifeSyncUser user) {
+        Date date = Date.valueOf(dateString);
+        int userId = user.getId();
 
         List<NutritionData> allInputNutritionData = processUserInput(userId, date, nutritionDetails);
         allInputNutritionData.forEach(nutritionDataService::saveNutritionData);
 
-        response.sendRedirect(request.getContextPath() + "/hlsp/nutrition");
+        return "redirect:/hlsp/nutrition";
     }
 
     private List<NutritionData> processUserInput(int userId, Date date, String nutritionDetails) {
@@ -80,22 +83,21 @@ public class NutritionServlet extends HttpServlet {
         return newNutritionData;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        LifeSyncUser user = loadUserNutritionData((LifeSyncUser) request.getSession().getAttribute("user"));
+    @GetMapping
+    public String getNutritionPage(Model model, @SessionAttribute("user") LifeSyncUser user) {
+        loadUserNutritionData(user);
 
-        request.getSession().setAttribute("nutritionData", user.getNutritionData());
-        request.getSession().setAttribute("nutritionDataGrouped", groupNutritionData(user.getNutritionData()));
-        request.getSession().setAttribute("articles", articleRecommender.getNutritionArticles());
-        request.getSession().setAttribute("averageCalorieIntake", calculateAverageCaloriesIntake(user.getNutritionData()));
-        request.getSession().setAttribute("averageSugarIntake", calculateAverageSugarIntake(user.getNutritionData()));
+        model.addAttribute("nutritionData", user.getNutritionData());
+        model.addAttribute("nutritionDataGrouped", groupNutritionData(user.getNutritionData()));
+        model.addAttribute("articles", articleRecommender.getNutritionArticles());
+        model.addAttribute("averageCalorieIntake", calculateAverageCaloriesIntake(user.getNutritionData()));
+        model.addAttribute("averageSugarIntake", calculateAverageSugarIntake(user.getNutritionData()));
 
-        response.sendRedirect(request.getContextPath() + "nutrition.jsp");
+        return "hlsp/nutrition";
     }
 
-    private LifeSyncUser loadUserNutritionData(LifeSyncUser user) {
+    private void loadUserNutritionData(LifeSyncUser user) {
         user.setNutritionData(nutritionDataService.getUserNutritionData(user.getId()));
-        return user;
     }
 
     private float calculateAverageCaloriesIntake(List<NutritionData> userNutritionData) {

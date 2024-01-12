@@ -6,54 +6,53 @@ import dev.james.lifesync.article.ArticleRecommender;
 import dev.james.lifesync.dao.ExerciseDataService;
 import dev.james.lifesync.model.ExerciseData;
 import dev.james.lifesync.model.LifeSyncUser;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "ExerciseServlet", urlPatterns = "/hlsp/exercise")
-public class ExerciseServlet extends HttpServlet {
+@Controller
+@RequestMapping("/hlsp/exercise")
+public class ExerciseController {
 
     private final ExerciseDataService exerciseDataService;
     private final ArticleRecommender articleRecommender;
 
     @Autowired
-    public ExerciseServlet(ExerciseDataService exerciseDataService, ArticleRecommender articleRecommender) {
+    public ExerciseController(ExerciseDataService exerciseDataService, ArticleRecommender articleRecommender) {
         this.exerciseDataService = exerciseDataService;
         this.articleRecommender = articleRecommender;
     }
 
-    Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
-
-    private LifeSyncUser loadUserExerciseData(LifeSyncUser user) {
+    private void loadUserExerciseData(LifeSyncUser user) {
         user.setExerciseData(exerciseDataService.getUserExerciseData(user.getId()));
-        return user;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Date date = Date.valueOf((request.getParameter("date")));
-        String exerciseDetails = request.getParameter("exerciseDetails");
-        int userId = ((LifeSyncUser) request.getSession().getAttribute("user")).getId();
+    @PostMapping
+    public String saveExerciseData(@RequestParam("date") String dateString,
+                                   @RequestParam("exerciseDetails") String exerciseDetails,
+                                   @SessionAttribute("user") LifeSyncUser user) {
+        Date date = Date.valueOf(dateString);
+        int userId = user.getId();
 
         List<ExerciseData> newExerciseData = processUserInput(userId, date, exerciseDetails);
         newExerciseData.forEach(exerciseDataService::saveUserExerciseData);
 
-        response.sendRedirect(request.getContextPath() + "/hlsp/exercise");
+        return "redirect:/hlsp/exercise";
     }
 
     private List<ExerciseData> processUserInput(int userId, Date date, String exerciseDetails) {
@@ -87,21 +86,31 @@ public class ExerciseServlet extends HttpServlet {
         return newExercise;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        LifeSyncUser user = loadUserExerciseData((LifeSyncUser) request.getSession().getAttribute("user"));
+    /**
+     *
+     * @param model The MVC model being modified to display the exercise.jsp page correctly
+     * @param user A class level session attribute representing the user that signed in from the {@link LoginController}
+     * @return The hlsp/exercise view
+     */
+    @GetMapping
+    public String getExercisePage(Model model, @SessionAttribute("user") LifeSyncUser user) {
+        loadUserExerciseData(user);
 
-        request.getSession().setAttribute("exerciseData", user.getExerciseData());
-        request.getSession().setAttribute("exerciseDataGrouped", groupExerciseData(user.getExerciseData()));
-        request.getSession().setAttribute("articles", articleRecommender.getExerciseArticles());
-        request.getSession().setAttribute("averageCaloriesBurnt", calculateAverageCaloriesBurnt(user.getExerciseData()));
-        request.getSession().setAttribute("averageDurationInMinutes", getAverageDurationInMinutes(user.getExerciseData()));
-        request.getSession().setAttribute("averageDurationFormatted", getAverageDurationInHoursAndMinutesHumanReadable(getAverageDurationInMinutes(user.getExerciseData())));
+        model.addAttribute("exerciseData", user.getExerciseData());
+        model.addAttribute("exerciseDataGrouped", groupExerciseData(user.getExerciseData()));
+        model.addAttribute("articles", articleRecommender.getExerciseArticles());
+        model.addAttribute("averageCaloriesBurnt", calculateAverageCaloriesBurnt(user.getExerciseData()));
+        model.addAttribute("averageDurationInMinutes", getAverageDurationInMinutes(user.getExerciseData()));
+        model.addAttribute("averageDurationFormatted", getAverageDurationInHoursAndMinutesHumanReadable(getAverageDurationInMinutes(user.getExerciseData())));
 
-        response.sendRedirect(request.getContextPath() + "exercise.jsp");
+        return "hlsp/exercise";
     }
 
     public int getAverageDurationInMinutes(List<ExerciseData> userExerciseData) {
+        if (userExerciseData == null || userExerciseData.isEmpty()) {
+            return 0;
+        }
+
         int totalDurationInMinutes = userExerciseData.stream()
                 .mapToInt(ExerciseData::getDuration)
                 .sum();
@@ -119,11 +128,15 @@ public class ExerciseServlet extends HttpServlet {
                     Duration.ofMinutes(averageDurationInMinutes).toHoursPart(),
                     Duration.ofMinutes(averageDurationInMinutes).toMinutesPart());
         } else {
-            return null;
+            return "0 Hours 0 Minutes";
         }
     }
 
     private int calculateAverageCaloriesBurnt(List<ExerciseData> userExerciseData) {
+        if (userExerciseData == null || userExerciseData.isEmpty()) {
+            return 0;
+        }
+
         int totalCaloriesBurnt = userExerciseData.stream()
                 .mapToInt(ExerciseData::getCaloriesBurnt)
                 .sum();
