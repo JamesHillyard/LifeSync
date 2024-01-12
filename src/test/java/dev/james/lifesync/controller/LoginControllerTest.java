@@ -1,12 +1,20 @@
 package dev.james.lifesync.controller;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.ext.ScriptUtils;
 import org.testcontainers.jdbc.JdbcDatabaseDelegate;
@@ -16,16 +24,27 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 @Testcontainers
 public class LoginControllerTest {
 
     @LocalServerPort
     private int springPort;
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Container
     public static MySQLContainer<?> mysqlContainer =
@@ -64,48 +83,41 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void testLoginServletWithValidCredentials() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/login", springPort));
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        String parameters = "username=jhillyard&password=test";
-        connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
-
-        int responseCode = connection.getResponseCode();
-
-        assertEquals(200, responseCode); // 301 returned due to the redirect to /hlsp/dashboard
+    public void showLoginPage() throws Exception {
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
     }
 
     @Test
-    public void testLoginServletWithCorrectUsernameIncorrectPassword() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/login", springPort));
+    public void authenticate_Success() throws Exception {
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/login")
+                        .param("username", "jhillyard")
+                        .param("password", "test"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/hlsp/dashboard"));
 
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        String parameters = "username=jhillyard&password=wrongpassword";
-        connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
-
-        int responseCode = connection.getResponseCode();
-        assertEquals(401, responseCode);
+        // Session Attributes are not actually created without the use of ResultActions hence a separate statement
+        result.andExpect(request().sessionAttribute("user", Matchers.notNullValue()));
     }
-    
+
     @Test
-    public void testLoginServletWithIncorrectUsernameCorrectPassword() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/login", springPort));
+    public void authenticate_Failure_UserDoesNotExist() throws Exception {
+        mockMvc.perform(post("/login")
+                        .param("username", "IDontExist")
+                        .param("password", "test"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"))
+                .andExpect(flash().attribute("loginError", "Invalid Username or Password."));
+    }
 
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        String parameters = "username=ahillyard&password=test";
-        connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
-
-        int responseCode = connection.getResponseCode();
-        assertEquals(401, responseCode);
+    @Test
+    public void authenticate_Failure_IncorrectPassword() throws Exception {
+        mockMvc.perform(post("/login")
+                        .param("username", "jhillyard")
+                        .param("password", "IncorrectPassword"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"))
+                .andExpect(flash().attribute("loginError", "Invalid Username or Password."));
     }
 }

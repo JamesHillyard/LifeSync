@@ -3,29 +3,32 @@ package dev.james.lifesync.controller;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.ext.ScriptUtils;
 import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 @Testcontainers
 public class SignupControllerTest {
 
-    @LocalServerPort
-    private int springPort;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Container
     public static MySQLContainer<?> mysqlContainer =
@@ -53,62 +56,49 @@ public class SignupControllerTest {
     }
 
     @Test
-    public void testSignupServletRedirectToSignupPage() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/signup", springPort));
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-
-        int responseCode = connection.getResponseCode();
-        assertEquals(200, responseCode);
+    void showSignupPage() throws Exception {
+        mockMvc.perform(get("/signup"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("signup"));
     }
 
     @Test
-    public void testSignupServletExistingNameExistingUsername() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/signup", springPort));
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        String parameters = "firstname=james&lastname=hillyard&username=jhillyard&password=test";
-        connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
-
-        int responseCode = connection.getResponseCode();
-
-        assertEquals(409, responseCode); // 409 returned as the username exists
+    void registerUserSuccess() throws Exception {
+        mockMvc.perform(post("/signup")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("firstname", "Sam")
+                        .param("lastname", "Smith")
+                        .param("username", "samsmith")
+                        .param("password", "password"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("signup"))
+                .andExpect(model().attribute("successMessage", "Registered Successfully"));
     }
 
     @Test
-    public void testSignupServletExistingNameDifferentUsername() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/signup", springPort));
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        String parameters = "firstname=james&lastname=hillyard&username=jhillyard1&password=test";
-        connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
-
-        int responseCode = connection.getResponseCode();
-
-        assertEquals(201, responseCode); // 201 Created returned as the user created
+    void registerUserSuccess_SameCredentialsExceptUsername() throws Exception {
+        mockMvc.perform(post("/signup")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("firstname", "James")
+                        .param("lastname", "Hillyard")
+                        .param("username", "jhillyard1")
+                        .param("password", "test"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("signup"))
+                .andExpect(model().attribute("successMessage", "Registered Successfully"));
     }
 
     @Test
-    public void testSignupServletDifferentNameDifferentUsername() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/signup", springPort));
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        String parameters = "firstname=Sam&lastname=Cole&username=samcole&password=Football3";
-        connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
-
-        int responseCode = connection.getResponseCode();
-
-        assertEquals(201, responseCode); // 201 Created returned as the user created
+    void registerUserUsernameTaken() throws Exception {
+        mockMvc.perform(post("/signup")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("firstname", "James")
+                        .param("lastname", "Hillyard")
+                        .param("username", "jhillyard")
+                        .param("password", "password"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("signup"))
+                .andExpect(model().attributeExists("error"));
     }
 
 }

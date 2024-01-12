@@ -3,29 +3,34 @@ package dev.james.lifesync.controller;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.ext.ScriptUtils;
 import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 @Testcontainers
 public class PasswordResetControllerTest {
 
-    @LocalServerPort
-    private int springPort;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Container
     public static MySQLContainer<?> mysqlContainer =
@@ -53,44 +58,29 @@ public class PasswordResetControllerTest {
     }
 
     @Test
-    public void testPasswordResetServletRedirectToPasswordResetPage() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/passwordreset", springPort));
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-
-        int responseCode = connection.getResponseCode();
-        assertEquals(200, responseCode);
+    void showPasswordResetPage() throws Exception {
+        mockMvc.perform(get("/passwordreset"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("passwordreset"));
     }
 
     @Test
-    public void testPasswordResetWithValidCredentials() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/passwordreset", springPort));
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        String parameters = "username=jhillyard&newPassword=test";
-        connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
-
-        int responseCode = connection.getResponseCode();
-
-        assertEquals(200, responseCode);
+    void resetPasswordSuccess() throws Exception {
+        mockMvc.perform(post("/passwordreset")
+                        .param("username", "jhillyard")
+                        .param("newPassword", "test1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("passwordreset"))
+                .andExpect(model().attribute("successMessage", "Password Reset Successfully"));
     }
 
     @Test
-    public void testPasswordResetServletWithIncorrectUsernameCorrectPassword() throws IOException {
-        URL url = new URL(String.format("http://localhost:%s/passwordreset", springPort));
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-
-        String parameters = "username=ahillyard&password=test";
-        connection.getOutputStream().write(parameters.getBytes(StandardCharsets.UTF_8));
-
-        int responseCode = connection.getResponseCode();
-        assertEquals(401, responseCode);
+    void resetPasswordUserNotFound() throws Exception {
+        mockMvc.perform(post("/passwordreset")
+                        .param("username", "nonexistentuser")
+                        .param("newPassword", "newpassword"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("passwordreset"))
+                .andExpect(model().attribute("error", "User doesn't exist."));
     }
 }
