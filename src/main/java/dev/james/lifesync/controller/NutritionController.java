@@ -100,7 +100,7 @@ public class NutritionController {
         user.setNutritionData(nutritionDataService.getUserNutritionData(user.getId()));
     }
 
-    private float calculateAverageCaloriesIntake(List<NutritionData> userNutritionData) {
+    protected float calculateAverageCaloriesIntake(List<NutritionData> userNutritionData) {
         float totalCalorieIntake = 0;
         for (NutritionData nutritionData : userNutritionData) {
             totalCalorieIntake += nutritionData.getCalories();
@@ -114,7 +114,7 @@ public class NutritionController {
         return totalCalorieIntake / numberOfUniqueDates;
     }
 
-    private float calculateAverageSugarIntake(List<NutritionData> userNutritionData) {
+    protected float calculateAverageSugarIntake(List<NutritionData> userNutritionData) {
         float totalCalorieIntake = 0;
         for (NutritionData nutritionData : userNutritionData) {
             totalCalorieIntake += nutritionData.getSugar();
@@ -130,7 +130,7 @@ public class NutritionController {
 
     // To display the chart correctly, the nutrition data needs grouping into days and amalgamating into one NutritionData object
     // This is a transient state and should never be pushed to the database.
-    private List<NutritionData> groupNutritionData(List<NutritionData> userNutritionData) {
+    protected List<NutritionData> groupNutritionData(List<NutritionData> userNutritionData) {
         Map<Date, float[]> dateMetricsMap = new HashMap<>();
         List<NutritionData> groupNutritionData = new ArrayList<>();
 
