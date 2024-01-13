@@ -2,7 +2,9 @@ package dev.james.lifesync.ui;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.parallel.Execution;
@@ -59,5 +61,22 @@ public class UITestBase {
     // Helper method to get the screen height
     public static int getScreenHeight() {
         return (int) java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    }
+
+    /**
+     * Pages at /hlsp/* require a user to log in to work correctly. This is a common method for all UI tests that require
+     * a logged in user to login using a verified safe user with test data.
+     * <br>
+     * Goes to the login page and login with a pre-configured test user whose credentials are NEVER changed from config/database/sample_data.sql
+     * <br>
+     * @param page The browser context page object managed by each test class.
+     */
+    protected void loginToLifeSync(Page page) {
+        page.navigate(BASE_URL+"/login");
+        page.getByPlaceholder("Username").click();
+        page.getByPlaceholder("Username").fill("jhillyardSAFE");
+        page.getByPlaceholder("Password").click();
+        page.getByPlaceholder("Password").fill("test");
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
     }
 }
