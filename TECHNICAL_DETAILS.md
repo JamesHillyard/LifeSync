@@ -19,8 +19,11 @@ docker compose up -d --build
 - `-DskipIntegrationTests` skips integration tests but executes unit tests
 - Add nothing to run unit tests and integration tests
 ```shell
-mvn clean install
+mvn clean install -DskipIntegrationTests
 ```
+> [!IMPORTANT] 
+Integration tests require a pre-configured environment to run correctly. You must run `docker compose -f docker-compose.yml -f docker-compose-integrationtest.yml up -d --build before running the tests`
+
 
 ---
 
