@@ -13,7 +13,7 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //TODO: Spring should start before these tests are run
-public class LoginUIIT extends UITestBase {
+public class LoginIT extends UITestBase {
 
     BrowserContext context;
     Page page;
@@ -22,6 +22,8 @@ public class LoginUIIT extends UITestBase {
     void createContextAndPage() {
         context = browser.newContext(new Browser.NewContextOptions().setViewportSize(getScreenWidth(),getScreenHeight()));
         page = context.newPage();
+
+        page.navigate(BASE_URL+"/login");
     }
 
     @AfterEach
@@ -31,8 +33,6 @@ public class LoginUIIT extends UITestBase {
 
     @Test
     public void testPrivacyPolicyTermsOfUseModals() {
-        page.navigate(BASE_URL+"/login");
-
         assertThat(page.locator("#privacyPolicyModal")).isHidden();
         assertThat(page.locator("#termsOfUseModal")).isHidden();
 
@@ -55,8 +55,6 @@ public class LoginUIIT extends UITestBase {
 
     @Test
     public void testInvalidLogin() {
-        page.navigate(BASE_URL+"/login");
-
         assertThat(page.getByText("Invalid Username or Password.")).isHidden();
         page.getByPlaceholder("Username").click();
         page.getByPlaceholder("Username").fill("jhillyard");
@@ -68,8 +66,6 @@ public class LoginUIIT extends UITestBase {
 
     @Test
     public void testValidLogin() {
-        page.navigate(BASE_URL+"/login");
-
         page.getByPlaceholder("Username").click();
         page.getByPlaceholder("Username").fill("jhillyard");
         page.getByPlaceholder("Password").click();
@@ -80,16 +76,12 @@ public class LoginUIIT extends UITestBase {
 
     @Test
     public void testSignUpButton() {
-        page.navigate("http://localhost:8080/login");
-
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Sign Up")).click();
         assertEquals(BASE_URL+"/signup", page.url());
     }
 
     @Test
     public void testSignUpThenBack() {
-        page.navigate("http://localhost:8080/login");
-
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Sign Up")).click();
         assertEquals(BASE_URL+"/signup", page.url());
 
@@ -100,16 +92,12 @@ public class LoginUIIT extends UITestBase {
 
     @Test
     public void testForgotPasswordButton() {
-        page.navigate("http://localhost:8080/login");
-
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Forgot Password?")).click();
         assertEquals(BASE_URL+"/passwordreset", page.url());
     }
 
     @Test
     public void testForgotPasswordThenBack() {
-        page.navigate("http://localhost:8080/login");
-
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Forgot Password?")).click();
         assertEquals(BASE_URL+"/passwordreset", page.url());
 
