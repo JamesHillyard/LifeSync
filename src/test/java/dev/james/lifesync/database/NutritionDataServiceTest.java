@@ -1,10 +1,9 @@
-package dev.james.lifesync.dao;
+package dev.james.lifesync.database;
 
-import dev.james.lifesync.entity.SleepData;
+import dev.james.lifesync.entity.NutritionData;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -15,20 +14,18 @@ import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.parallel.ExecutionMode.SAME_THREAD;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-@Execution(SAME_THREAD)
-public class SleepDataServiceTest {
+public class NutritionDataServiceTest {
 
     @Autowired
-    SleepDataService sleepDataService;
+    NutritionDataService nutritionDataService;
 
     @Container
     public static MySQLContainer<?> mysqlContainer =
@@ -46,7 +43,7 @@ public class SleepDataServiceTest {
     @BeforeEach // Do before each so the tests don't interfere with eachother
     public void setUpDatabase() {
         // Testcontainers doesn't support multiple init scripts. This is a workaround to run multiple https://github.com/testcontainers/testcontainers-java/issues/2232
-        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/dao/SleepDataServletTest.sql");
+        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/database/NutritionDataServletTest.sql");
         mysqlContainer.start();
     }
 
@@ -56,28 +53,33 @@ public class SleepDataServiceTest {
     }
 
     @Test
-    public void testGetUserSleepData() {
-        List<SleepData> userNutritionData = sleepDataService.getUserSleepData(1);
+    public void testGetUserNutritionData() {
+        List<NutritionData> userNutritionData = nutritionDataService.getUserNutritionData(1);
 
         assertEquals(2, userNutritionData.size());
+        for (NutritionData nutritionData : userNutritionData) {
+            assertEquals("Apple", nutritionData.getFoodName());
+        }
     }
 
     @Test
-    public void testSaveUserSleepData() {
-        List<SleepData> user1SleepData = sleepDataService.getUserSleepData(1);
-        assertEquals(2, user1SleepData.size());
+    public void testSaveUserNutritionData() {
+        List<NutritionData> user1NutritionData = nutritionDataService.getUserNutritionData(1);
+        assertEquals(2, user1NutritionData.size());
 
-        List<SleepData> user2SleepData = sleepDataService.getUserSleepData(2);
-        assertEquals(1, user2SleepData.size());
+        List<NutritionData> user2NutritionData = nutritionDataService.getUserNutritionData(2);
+        assertEquals(1, user2NutritionData.size());
 
-        SleepData sleepData = new SleepData(1, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now().plusSeconds(1)));
-        sleepDataService.saveUserSleepData(sleepData);
+        NutritionData nutritionData = new NutritionData(1, Date.valueOf(LocalDate.now()), "Lemon", 40, 3, 28);
+        nutritionDataService.saveNutritionData(nutritionData);
 
-        user1SleepData = sleepDataService.getUserSleepData(1);
-        assertEquals(3, user1SleepData.size());
+        user1NutritionData = nutritionDataService.getUserNutritionData(1);
+        assertEquals(3, user1NutritionData.size());
 
-        user2SleepData = sleepDataService.getUserSleepData(2);
-        assertEquals(1, user2SleepData.size());
+        user2NutritionData = nutritionDataService.getUserNutritionData(2);
+        assertEquals(1, user2NutritionData.size());
     }
+
+
 
 }

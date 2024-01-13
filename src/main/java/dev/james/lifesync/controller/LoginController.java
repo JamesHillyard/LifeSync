@@ -1,6 +1,6 @@
 package dev.james.lifesync.controller;
 
-import dev.james.lifesync.dao.LifeSyncUserService;
+import dev.james.lifesync.database.LifeSyncUserService;
 import dev.james.lifesync.exception.AuthenticationException;
 import dev.james.lifesync.entity.LifeSyncUser;
 import org.springframework.beans.factory.annotation.Autowired;

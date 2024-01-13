@@ -1,4 +1,4 @@
-package dev.james.lifesync.dao;
+package dev.james.lifesync.database;
 
 import dev.james.lifesync.entity.ExerciseData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,20 +9,20 @@ import java.util.List;
 @Service
 public class ExerciseDataService {
 
-    private final ExerciseDataDAO exerciseDataDAO;
+    private final ExerciseDataRepository exerciseDataRepository;
 
     @Autowired
-    public ExerciseDataService(ExerciseDataDAO exerciseDataDAO) {
-        this.exerciseDataDAO = exerciseDataDAO;
+    public ExerciseDataService(ExerciseDataRepository exerciseDataRepository) {
+        this.exerciseDataRepository = exerciseDataRepository;
     }
 
     public List<ExerciseData> getUserExerciseData(int userId) {
         // TODO: Eventually the timescale should be controlled by the user
         // TODO: If there is a datapoint missing, an empty ExerciseData object should be created
-        return exerciseDataDAO.findAllByUserid(userId);
+        return exerciseDataRepository.findAllByUserid(userId);
     }
 
     public void saveUserExerciseData(ExerciseData newExerciseData) {
-        exerciseDataDAO.save(newExerciseData);
+        exerciseDataRepository.save(newExerciseData);
     }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.james.lifesync.article.ArticleRecommender;
-import dev.james.lifesync.dao.ExerciseDataService;
+import dev.james.lifesync.database.ExerciseDataService;
 import dev.james.lifesync.entity.ExerciseData;
 import dev.james.lifesync.entity.LifeSyncUser;
 import kong.unirest.HttpResponse;

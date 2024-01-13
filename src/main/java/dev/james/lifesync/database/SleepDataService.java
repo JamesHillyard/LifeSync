@@ -1,4 +1,4 @@
-package dev.james.lifesync.dao;
+package dev.james.lifesync.database;
 
 import dev.james.lifesync.entity.SleepData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +9,11 @@ import java.util.List;
 @Service
 public class SleepDataService {
 
-    private final SleepDataDAO sleepDataDAO;
+    private final SleepDataRepository sleepDataRepository;
 
     @Autowired
-    public SleepDataService(SleepDataDAO sleepDataDAO) {
-        this.sleepDataDAO = sleepDataDAO;
+    public SleepDataService(SleepDataRepository sleepDataRepository) {
+        this.sleepDataRepository = sleepDataRepository;
     }
 
     public List<SleepData> getUserSleepData(int userId) {
@@ -22,10 +22,10 @@ public class SleepDataService {
 //        return sleepDataDAO.findAllByUseridAndEndtimeBetween(userId,
 //                Timestamp.from(Instant.now().minus(7, ChronoUnit.DAYS)),
 //                Timestamp.from(Instant.now()));
-        return sleepDataDAO.findAllByUserid(userId);
+        return sleepDataRepository.findAllByUserid(userId);
     }
 
     public void saveUserSleepData(SleepData newUserData) {
-        sleepDataDAO.save(newUserData);
+        sleepDataRepository.save(newUserData);
     }
 }

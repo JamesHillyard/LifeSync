@@ -1,6 +1,6 @@
-package dev.james.lifesync.dao;
+package dev.james.lifesync.database;
 
-import dev.james.lifesync.entity.NutritionData;
+import dev.james.lifesync.entity.ExerciseData;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
-public class NutritionDataServiceTest {
+public class ExerciseDataServiceTest {
 
     @Autowired
-    NutritionDataService nutritionDataService;
+    ExerciseDataService exerciseDataService;
 
     @Container
     public static MySQLContainer<?> mysqlContainer =
@@ -43,7 +43,7 @@ public class NutritionDataServiceTest {
     @BeforeEach // Do before each so the tests don't interfere with eachother
     public void setUpDatabase() {
         // Testcontainers doesn't support multiple init scripts. This is a workaround to run multiple https://github.com/testcontainers/testcontainers-java/issues/2232
-        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/dao/NutritionDataServletTest.sql");
+        ScriptUtils.runInitScript(new JdbcDatabaseDelegate(mysqlContainer, ""), "dev/james/lifesync/database/ExerciseDataServletTest.sql");
         mysqlContainer.start();
     }
 
@@ -53,33 +53,30 @@ public class NutritionDataServiceTest {
     }
 
     @Test
-    public void testGetUserNutritionData() {
-        List<NutritionData> userNutritionData = nutritionDataService.getUserNutritionData(1);
+    public void testGetUserExerciseData() {
+        List<ExerciseData> userExerciseData = exerciseDataService.getUserExerciseData(1);
 
-        assertEquals(2, userNutritionData.size());
-        for (NutritionData nutritionData : userNutritionData) {
-            assertEquals("Apple", nutritionData.getFoodName());
+        assertEquals(2, userExerciseData.size());
+        for (ExerciseData exerciseData : userExerciseData) {
+            assertEquals("Skiing", exerciseData.getActivityName());
         }
     }
 
     @Test
-    public void testSaveUserNutritionData() {
-        List<NutritionData> user1NutritionData = nutritionDataService.getUserNutritionData(1);
-        assertEquals(2, user1NutritionData.size());
+    public void testSaveUserExerciseData() {
+        List<ExerciseData> user1ExerciseData = exerciseDataService.getUserExerciseData(1);
+        assertEquals(2, user1ExerciseData.size());
 
-        List<NutritionData> user2NutritionData = nutritionDataService.getUserNutritionData(2);
-        assertEquals(1, user2NutritionData.size());
+        List<ExerciseData> user2ExerciseData = exerciseDataService.getUserExerciseData(2);
+        assertEquals(1, user2ExerciseData.size());
 
-        NutritionData nutritionData = new NutritionData(1, Date.valueOf(LocalDate.now()), "Lemon", 40, 3, 28);
-        nutritionDataService.saveNutritionData(nutritionData);
+        ExerciseData exerciseData = new ExerciseData(1, "Golf", Date.valueOf(LocalDate.now()), 90, 158);
+        exerciseDataService.saveUserExerciseData(exerciseData);
 
-        user1NutritionData = nutritionDataService.getUserNutritionData(1);
-        assertEquals(3, user1NutritionData.size());
+        user1ExerciseData = exerciseDataService.getUserExerciseData(1);
+        assertEquals(3, user1ExerciseData.size());
 
-        user2NutritionData = nutritionDataService.getUserNutritionData(2);
-        assertEquals(1, user2NutritionData.size());
+        user2ExerciseData = exerciseDataService.getUserExerciseData(2);
+        assertEquals(1, user2ExerciseData.size());
     }
-
-
-
 }

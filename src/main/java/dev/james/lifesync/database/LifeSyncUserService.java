@@ -1,4 +1,4 @@
-package dev.james.lifesync.dao;
+package dev.james.lifesync.database;
 
 import dev.james.lifesync.entity.LifeSyncUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,23 +7,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class LifeSyncUserService {
 
-    private final LifeSyncUserDAO lifeSyncUserDAO;
+    private final LifeSyncUserRepository lifeSyncUserRepository;
 
     @Autowired
-    public LifeSyncUserService(LifeSyncUserDAO lifeSyncUserDAO) {
-        this.lifeSyncUserDAO = lifeSyncUserDAO;
+    public LifeSyncUserService(LifeSyncUserRepository lifeSyncUserRepository) {
+        this.lifeSyncUserRepository = lifeSyncUserRepository;
     }
 
     public LifeSyncUser getUser(String username) {
-        return lifeSyncUserDAO.findByUsername(username);
+        return lifeSyncUserRepository.findByUsername(username);
     }
 
     public void saveUser(LifeSyncUser user) {
-        lifeSyncUserDAO.save(user);
+        lifeSyncUserRepository.save(user);
     }
 
     public String getUserPassword(String username) {
-        LifeSyncUser user = lifeSyncUserDAO.findByUsername(username);
+        LifeSyncUser user = lifeSyncUserRepository.findByUsername(username);
         if (user == null) {
             return null;
         }

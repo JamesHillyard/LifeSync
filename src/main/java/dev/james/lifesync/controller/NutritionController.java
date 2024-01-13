@@ -3,7 +3,7 @@ package dev.james.lifesync.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.james.lifesync.article.ArticleRecommender;
-import dev.james.lifesync.dao.NutritionDataService;
+import dev.james.lifesync.database.NutritionDataService;
 import dev.james.lifesync.entity.LifeSyncUser;
 import dev.james.lifesync.entity.NutritionData;
 import kong.unirest.HttpResponse;

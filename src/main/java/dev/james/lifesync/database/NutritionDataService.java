@@ -1,4 +1,4 @@
-package dev.james.lifesync.dao;
+package dev.james.lifesync.database;
 
 import dev.james.lifesync.entity.NutritionData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,21 +11,21 @@ import java.util.List;
 @Transactional
 public class NutritionDataService {
 
-    private final NutritionDataDAO nutritionDataDAO;
+    private final NutritionDataRepository nutritionDataRepository;
 
     @Autowired
-    public NutritionDataService(NutritionDataDAO nutritionDataDAO) {
-        this.nutritionDataDAO = nutritionDataDAO;
+    public NutritionDataService(NutritionDataRepository nutritionDataRepository) {
+        this.nutritionDataRepository = nutritionDataRepository;
     }
 
     public List<NutritionData> getUserNutritionData(int userId) {
         // TODO: Eventually the timescale should be controlled by the user
         // TODO: If there is a datapoint missing, an empty NutritionData object should be created
-        return nutritionDataDAO.findAllByUserid(userId);
+        return nutritionDataRepository.findAllByUserid(userId);
     }
 
     public NutritionData saveNutritionData(NutritionData newNutritionData) {
         // Save the NutritionData to generate an ID
-        return nutritionDataDAO.save(newNutritionData);
+        return nutritionDataRepository.save(newNutritionData);
     }
 }

@@ -1,7 +1,7 @@
 package dev.james.lifesync.controller;
 
 import dev.james.lifesync.article.ArticleRecommender;
-import dev.james.lifesync.dao.SleepDataService;
+import dev.james.lifesync.database.SleepDataService;
 import dev.james.lifesync.entity.LifeSyncUser;
 import dev.james.lifesync.entity.SleepData;
 import org.springframework.beans.factory.annotation.Autowired;
