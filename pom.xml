@@ -192,33 +192,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>com.dkanejs.maven.plugins</groupId>
-                <artifactId>docker-compose-maven-plugin</artifactId>
-                <version>4.0.0</version>
-
-                <executions>
-                    <!-- Configuration for starting Docker Compose services before integration tests -->
-                    <execution>
-                        <id>integration-test-docker-configuration</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>up</goal>
-                        </goals>
-                        <configuration>
-                            <detachedMode>true</detachedMode>
-                            <!-- TODO: Ideally this would build, but it doesn't seem to work -->
-                            <!-- <build>true</build> -->
-                            <removeImages>true</removeImages>
-                            <composeFiles>
-                                <composeFile>docker-compose.yml</composeFile>
-                                <composeFile>docker-compose-integrationtest.yml</composeFile>
-                            </composeFiles>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
