@@ -1,5 +1,5 @@
-DELETE FROM NutritionData;
-DELETE FROM LifeSyncUser;
+DELETE IGNORE FROM NutritionData;
+DELETE IGNORE FROM LifeSyncUser;
 
 INSERT IGNORE INTO `lifesync_database`.`LifeSyncUser` (`id`, `firstname`, `lastname`, `username`, `password`) VALUES (1, 'James', 'Hillyard', 'jhillyard', 'test');
 INSERT IGNORE INTO `lifesync_database`.`LifeSyncUser` (`id`, `firstname`, `lastname`, `username`, `password`) VALUES (2, 'Seb', 'North', 'snorth', 'HelloPassword321!');
