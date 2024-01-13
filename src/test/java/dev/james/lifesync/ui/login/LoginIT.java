@@ -105,4 +105,38 @@ public class LoginIT extends UITestBase {
         assertEquals(BASE_URL+"/login", page.url());
     }
 
+    @Test
+    public void testUsernamePasswordErrorTest() {
+        // Verify both error messages are hidden
+        assertThat(page.getByText("Please enter your username")).isHidden();
+        assertThat(page.getByText("Please enter your password")).isHidden();
+
+        // Click the username and password box then login
+        page.getByPlaceholder("Username").click();
+        page.getByPlaceholder("Password").click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
+
+        // Verify both error messages are visible
+        assertThat(page.getByText("Please enter your username")).isVisible();
+        assertThat(page.getByText("Please enter your password")).isVisible();
+
+        // Populate the username box
+        page.getByPlaceholder("Username").click();
+        page.getByPlaceholder("Username").fill("a");
+        page.getByPlaceholder("Password").click(); // This is required due to the speed playwright runs at
+
+        // Verify the username error is hidden and the password error is visible
+        assertThat(page.getByText("Please enter your username")).isHidden();
+        assertThat(page.getByText("Please enter your password")).isVisible();
+
+        // Populate the password box
+        page.getByPlaceholder("Password").click();
+        page.getByPlaceholder("Password").fill("b");
+        page.getByPlaceholder("Username").click(); // This is required due to the speed playwright runs at
+
+        // Verify both error messages are hidden
+        assertThat(page.getByText("Please enter your username")).isHidden();
+        assertThat(page.getByText("Please enter your password")).isHidden();
+    }
+
 }
