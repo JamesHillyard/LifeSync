@@ -82,8 +82,7 @@ public class ExerciseIT extends UITestBase {
     public void testAddExerciseData() {
         // Click Input Data Tab and Enter Data
         page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("Input Exercise Data")).click();
-        page.getByLabel("Date:").fill("2024-01-10");
-        page.getByLabel("Exercise Details:").fill("20 Minute Rock Climbing");
+        page.getByLabel("Exercise Details").fill("20 Minute Rock Climbing");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit")).click();
 
         // Verify the Data appears in the table

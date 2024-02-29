@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.sql.Date;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,10 +45,9 @@ public class ExerciseController {
     }
 
     @PostMapping
-    public String saveExerciseData(@RequestParam("date") String dateString,
-                                   @RequestParam("exerciseDetails") String exerciseDetails,
+    public String saveExerciseData(@RequestParam("exerciseDetails") String exerciseDetails,
                                    @SessionAttribute("user") LifeSyncUser user) {
-        Date date = Date.valueOf(dateString);
+        Date date = Date.valueOf(LocalDate.now());
         int userId = user.getId();
 
         List<ExerciseData> newExerciseData = processUserInput(userId, date, exerciseDetails);

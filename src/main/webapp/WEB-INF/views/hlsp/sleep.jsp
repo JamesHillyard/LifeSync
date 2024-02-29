@@ -18,10 +18,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Client Side Validation -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-
     <!-- Chart.js libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.0.2/chartjs-plugin-annotation.min.js"></script>
@@ -32,7 +28,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><img src="/assets/logo.png" alt="Your Logo" width="40" height="40" class="d-inline-block align-top"></a>
+    <a class="navbar-brand" href="#"><img src="/assets/logo.png" alt="Your Logo" width="40" height="40" class="d-inline-block align-top navbar-logo-padding"></a>
 
     <!-- Navbar Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -212,7 +208,9 @@
                                         ${dataEntryError}
                                 </div>
                             </c:if>
-                            <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Submit</button>
+                            <div class="d-grid gap-2 col-5 mx-auto">
+                                <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Submit</button>
+                            </div>
                         </form>
                     </div>
 
@@ -225,50 +223,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        // Add a custom validation method to compare start and end times
-        $.validator.addMethod("endTimeLaterThanStartTime", function() {
-            var startDateTime = new Date($("#startSleep").val());
-            var endDateTime = new Date($("#endSleep").val());
-
-            // Extract date and time components separately
-            var startDate = startDateTime.toLocaleDateString();
-            var startTime = startDateTime.toLocaleTimeString();
-
-            var endDate = endDateTime.toLocaleDateString();
-            var endTime = endDateTime.toLocaleTimeString();
-
-            // Check if end date is later than start date, and if end time is later than start time
-            return (endDate > startDate) || (endDate === startDate && endTime > startTime);
-        }, "End time must be later than start time");
-
-        $("#sleepInputForm").validate({
-            rules: {
-                starttime: {
-                    required: true
-                },
-                endtime: {
-                    required: true,
-                    endTimeLaterThanStartTime: true
-                }
-            },
-            messages: {
-                starttime: {
-                    required: "Please enter the time you went to sleep"
-                },
-                endtime: {
-                    required: "Please enter the time you woke up"
-                }
-            },
-            errorPlacement: function(error, element) {
-                error.addClass("invalid-feedback");
-                error.insertAfter(element);
-            }
-        });
-    });
-</script>
 
 <script>
     // JavaScript code to populate the chart with data

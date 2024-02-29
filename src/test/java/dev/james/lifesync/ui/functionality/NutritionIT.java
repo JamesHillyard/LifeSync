@@ -81,9 +81,8 @@ public class NutritionIT extends UITestBase {
     public void testAddNutritionData() {
         // Click Input Data Tab and Enter Data
         page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("Input Nutrition Data")).click();
-        page.getByLabel("Date:").fill("2024-01-10");
-        page.getByLabel("Nutrition Details:").click();
-        page.getByLabel("Nutrition Details:").fill("Three Apples");
+        page.getByLabel("Nutrition Details").click();
+        page.getByLabel("Nutrition Details").fill("Three Apples");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit")).click();
 
         // Verify the Data appears in the table

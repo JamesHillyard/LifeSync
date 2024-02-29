@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,13 +39,13 @@ public class NutritionController {
     }
 
     @PostMapping
-    public String saveNutritionData(@RequestParam("date") String dateString,
-                                    @RequestParam("nutritionDetails") String nutritionDetails,
+    public String saveNutritionData(@RequestParam("nutritionDetails") String nutritionDetails,
                                     @SessionAttribute("user") LifeSyncUser user) {
-        Date date = Date.valueOf(dateString);
+        Date date = Date.valueOf(LocalDate.now());
         int userId = user.getId();
 
         List<NutritionData> allInputNutritionData = processUserInput(userId, date, nutritionDetails);
+        allInputNutritionData.forEach(nutritionDataService::saveNutritionData);
         allInputNutritionData.forEach(nutritionDataService::saveNutritionData);
 
         return "redirect:/hlsp/nutrition";

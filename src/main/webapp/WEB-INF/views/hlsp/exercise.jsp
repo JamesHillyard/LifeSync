@@ -17,10 +17,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Client Side Validation -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-
     <!-- Chart.js libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.0.2/chartjs-plugin-annotation.min.js"></script>
@@ -32,7 +28,7 @@
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><img src="/assets/logo.png" alt="Your Logo" width="40" height="40" class="d-inline-block align-top"></a>
+    <a class="navbar-brand" href="#"><img src="/assets/logo.png" alt="Your Logo" width="40" height="40" class="d-inline-block align-top navbar-logo-padding"></a>
 
     <!-- Navbar Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -197,18 +193,19 @@
 
                     <!-- Input exercise Tab Content -->
                     <div id="input-exercise" class="tab-pane fade">
-                        <form class="mt-4 form-padding" id="exerciseInputForm" method="post" action="${pageContext.request.contextPath}/hlsp/exercise">
+                        <form class="mt-4 form-padding needs-validation" novalidate id="exerciseInputForm" method="post" action="${pageContext.request.contextPath}/hlsp/exercise">
                             <div class="form-group">
-                                <label for="date">Date:</label>
-                                <input type="date" class="form-control custom-input" id="date" name="date">
-                            </div>
-                            <div class="form-group">
-                                <label for="exerciseDetails">Exercise Details:</label>
-                                <input type="text" class="form-control custom-input" id="exerciseDetails" name="exerciseDetails">
-                                <div class="text-right mt-2">
-                                    <a href="#" data-bs-toggle="modal" data-target="#needHelpModal" class="small text-muted">
-                                        Need Help?
-                                    </a>
+                                <div style="text-align: center">
+                                    LifeSync uses a natural language model for the input of exercise data. Simply type what you did!<br>
+                                    E.g. "A 30-minute walk and 90 minutes rock climbing"
+                                </div>
+                                <br>
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="" id="exerciseDetails" name="exerciseDetails" style="height: 100px" cols="4" required></textarea>
+                                    <label for="exerciseDetails">Exercise Details</label>
+                                    <div class="invalid-feedback">
+                                        Please enter exercise details.
+                                    </div>
                                 </div>
                             </div>
                             <div class="invalid-feedback">This field is required.</div>
@@ -217,28 +214,15 @@
                                         ${dataEntryError}
                                 </div>
                             </c:if>
-                            <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Submit</button>
+                            <div class="d-grid gap-2 col-5 mx-auto">
+                                <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Submit</button>
+                            </div>
                         </form>
                     </div>
                     <!-- Edit Sleep Tab Content -->
                     <div id="edit-exercise" class="tab-pane fade">
                         edit exercise
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Need Help Modal -->
-<div class="modal fade" id="needHelpModal" tabindex="-1" role="dialog" aria-labelledby="needHelpModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div style="white-space: normal">
-                    LifeSync uses a natural language model for the input of exercise data. Simply type what you did!
-                    <br>
-                    Eg. "A 30 minute walk and 90 minutes rock climbing"
                 </div>
             </div>
         </div>
@@ -307,31 +291,29 @@
     });
 </script>
 
+<%--
+@Author Bootstrap
+Source: https://getbootstrap.com/docs/5.3/forms/validation/#custom-styles
+ --%>
 <script>
-    $(document).ready(function() {
-        $("#exerciseInputForm").validate({
-            rules: {
-                date: {
-                    required: true
-                },
-                exerciseDetails: {
-                    required: true
+    (() => {
+        'use strict'
+
+        // Fetch all the forms to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
                 }
-            },
-            messages: {
-                date: {
-                    required: "Please the date the activity happened"
-                },
-                exerciseDetails: {
-                    required: "Please the exercise details"
-                }
-            },
-            errorPlacement: function(error, element) {
-                error.addClass("invalid-feedback");
-                error.insertAfter(element);
-            }
-        });
-    });
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
 </script>
 </body>
 </html>

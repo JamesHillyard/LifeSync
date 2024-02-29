@@ -17,10 +17,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Client Side Validation -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-
     <!-- Chart.js libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.0.2/chartjs-plugin-annotation.min.js"></script>
@@ -32,7 +28,7 @@
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><img src="/assets/logo.png" alt="Your Logo" width="40" height="40" class="d-inline-block align-top"></a>
+    <a class="navbar-brand" href="#"><img src="/assets/logo.png" alt="Your Logo" width="40" height="40" class="d-inline-block align-top navbar-logo-padding"></a>
 
     <!-- Navbar Links -->
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -226,18 +222,20 @@
 
                     <!-- Input nutrition Tab Content -->
                     <div id="input-nutrition" class="tab-pane fade">
-                        <form class="mt-4 form-padding" id="nutritionInputForm" method="post" action="${pageContext.request.contextPath}/hlsp/nutrition">
+                        <form class="mt-4 form-padding needs-validation" novalidate id="nutritionInputForm" method="post" action="${pageContext.request.contextPath}/hlsp/nutrition">
                             <div class="form-group">
-                                <label for="date">Date:</label>
-                                <input type="date" class="form-control custom-input" id="date" name="date">
+                                <div style="text-align: center">
+                                    LifeSync uses a natural language model for the input of nutritional data. Simply type what you ate!
+                                    <br>
+                                    E.g. "For breakfast I had an apple and a cappuccino"
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="nutritionDetails">Nutrition Details:</label>
-                                <input type="text" class="form-control custom-input" id="nutritionDetails" name="nutritionDetails">
-                                <div class="text-right mt-2">
-                                    <a href="#" data-bs-toggle="modal" data-target="#needHelpModal" class="small text-muted">
-                                        Need Help?
-                                    </a>
+                            <br>
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="" id="nutritionDetails" name="nutritionDetails" style="height: 100px" cols="4" required></textarea>
+                                <label for="nutritionDetails">Nutrition Details</label>
+                                <div class="invalid-feedback">
+                                    Please enter nutrition details.
                                 </div>
                             </div>
                             <div class="invalid-feedback">This field is required.</div>
@@ -259,24 +257,9 @@
     </div>
 </div>
 
-<!-- Need Help Modal -->
-<div class="modal fade" id="needHelpModal" tabindex="-1" role="dialog" aria-labelledby="needHelpModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div style="white-space: normal">
-                    LifeSync uses a natural language model for the input of nutritional data. Simply type what you ate!
-                    <br>
-                    Eg. "For breakfast I had an apple and a cappuccino"
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     // JavaScript code to populate the chart with data
-    var exerciseData = [
+    var nutritionData = [
         <%-- Iterate through your processed exercise data and generate an array --%>
         <c:forEach items="${nutritionDataGrouped}" var="data">
         {
@@ -292,11 +275,11 @@
     var chart = new Chart(ctx, {
         type: 'bar', // You can change the chart type as needed (e.g., 'line')
         data: {
-            labels: exerciseData.map(item => item.date),
+            labels: nutritionData.map(item => item.date),
             datasets: [
                 {
                     label: 'Calorie Intake',
-                    data: exerciseData.map(item => item.calories),
+                    data: nutritionData.map(item => item.calories),
                     yAxisID: 'highvalue',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgb(75,126,192)',
@@ -304,7 +287,7 @@
                 },
                 {
                     label: 'Fat Intake',
-                    data: exerciseData.map(item => item.fat),
+                    data: nutritionData.map(item => item.fat),
                     yAxisID: 'lowvalue',
                     backgroundColor: 'rgba(192,116,75, 0.2)',
                     borderColor: 'rgb(192,75,75)',
@@ -312,7 +295,7 @@
                 },
                 {
                     label: 'Sugar Intake',
-                    data: exerciseData.map(item => item.sugar),
+                    data: nutritionData.map(item => item.sugar),
                     yAxisID: 'lowvalue',
                     backgroundColor: 'rgba(192,116,75, 0.2)',
                     borderColor: 'rgb(192,186,75)',
@@ -335,6 +318,31 @@
             },
         },
     });
+</script>
+
+<%--
+@Author Bootstrap
+Source: https://getbootstrap.com/docs/5.3/forms/validation/#custom-styles
+ --%>
+<script>
+    (() => {
+        'use strict'
+
+        // Fetch all the forms to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
 </script>
 </body>
 </html>

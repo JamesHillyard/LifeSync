@@ -32,6 +32,9 @@
 .logo-padding {
     padding-bottom: 7%;
 }
+.navbar-logo-padding {
+    margin-left: 15px;
+}
 .title-colour {
     background: linear-gradient(to bottom right, #487EB0, #0097E6);
     -webkit-background-clip: text;
