@@ -16,6 +16,9 @@
     <!-- Add Bootstrap CSS & JS link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Add Bootstrap Icons link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
@@ -28,8 +31,11 @@
         <!-- Right password reset form -->
         <div class="col-lg-5 full-height">
             <div class="float-left">
-                <a href="/login" class="back-link gray-text">
-                    &#8592; Back
+                <a class="icon-link icon-link-hover" href="/login">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <a href="/login" class="gray-text">
+                    Back
                 </a>
             </div>
             <div class="center-vertically full-height">

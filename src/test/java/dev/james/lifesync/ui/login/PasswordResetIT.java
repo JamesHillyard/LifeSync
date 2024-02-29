@@ -88,7 +88,7 @@ public class PasswordResetIT extends UITestBase {
     @Test
     public void testBackButton() {
         assertEquals(BASE_URL+"/passwordreset", page.url());
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("← Back")).click();
+        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Back")).click();
         assertEquals(BASE_URL+"/login", page.url());
     }
 

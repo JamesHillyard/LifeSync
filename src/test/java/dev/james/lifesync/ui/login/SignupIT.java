@@ -33,7 +33,7 @@ public class SignupIT extends UITestBase {
     @Test
     public void testDefaultState() {
         // Verify all elements are enabled as expected
-        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("← Back"))).isVisible();
+        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Back"))).isVisible();
         assertThat(page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("Signup to LifeSync"))).isVisible();
         assertThat(page.getByLabel("First Name")).isVisible();
         assertThat(page.getByLabel("Last Name")).isVisible();
@@ -102,7 +102,7 @@ public class SignupIT extends UITestBase {
     @Test
     public void testBackButton() {
         assertEquals(BASE_URL+"/signup", page.url());
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("← Back")).click();
+        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Back")).click();
         assertEquals(BASE_URL+"/login", page.url());
     }
 

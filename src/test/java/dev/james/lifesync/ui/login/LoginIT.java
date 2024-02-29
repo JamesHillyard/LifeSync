@@ -83,7 +83,7 @@ public class LoginIT extends UITestBase {
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Sign Up")).click();
         assertEquals(BASE_URL+"/signup", page.url());
 
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("← Back")).click();
+        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Back")).click();
         assertEquals(BASE_URL+"/login", page.url());
 
     }
@@ -99,7 +99,7 @@ public class LoginIT extends UITestBase {
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Forgot Password?")).click();
         assertEquals(BASE_URL+"/passwordreset", page.url());
 
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("← Back")).click();
+        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Back")).click();
         assertEquals(BASE_URL+"/login", page.url());
     }
 

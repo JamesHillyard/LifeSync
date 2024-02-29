@@ -35,6 +35,10 @@
 .navbar-logo-padding {
     margin-left: 15px;
 }
+.icon-link.icon-link-hover {
+    color: rgb(128, 128, 128); !important;
+    --bs-icon-link-transform: translate3d(-0.25em, 0, 0);
+}
 .title-colour {
     background: linear-gradient(to bottom right, #487EB0, #0097E6);
     -webkit-background-clip: text;
