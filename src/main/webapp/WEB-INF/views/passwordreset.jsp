@@ -1,10 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- Add Bootstrap JS scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,37 +13,45 @@
     </script>
 
     <title>LifeSync | Password Reset</title>
-    <!-- Add Bootstrap CSS link -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Bootstrap CSS & JS link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
         <!-- Left colorful section -->
-        <div class="col-7 colorful-section">
+        <div class="col-lg-7 colorful-section full-height">
 
         </div>
         <!-- Right password reset form -->
-        <div class="col-md-5">
+        <div class="col-lg-5 full-height">
             <div class="float-left">
                 <a href="/login" class="back-link gray-text">
                     &#8592; Back
                 </a>
             </div>
-            <div class="center-vertically">
+            <div class="center-vertically full-height">
                 <div class="text-center mt-5">
                     <h2 class="title-colour">LifeSync Password Reset</h2>
                 </div>
-                <form class="mt-4 form-padding" action="${pageContext.request.contextPath}/passwordreset" method="post" id="passwordResetForm">
-                    <div class="form-group">
-                        <input type="text" class="form-control custom-input" placeholder="Username" name="username">
+                <form class="mt-4 form-padding needs-validation" novalidate action="${pageContext.request.contextPath}/passwordreset" method="post" id="passwordResetForm">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="" required>
+                        <label for="email">Email address</label>
+                        <div class="invalid-feedback">
+                            Please enter your email address.
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control custom-input" placeholder="New Password" name="newPassword">
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="" required>
+                        <label for="password">New Password</label>
+                        <div class="invalid-feedback">
+                            Please enter a new password.
+                        </div>
                     </div>
-                    <div class="invalid-feedback">This field is required.</div>
-                    <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Reset Password</button>
+
                     <c:if test="${not empty error}">
                         <div class="alert alert-danger mt-3" role="alert">
                                 ${error}
@@ -59,43 +61,40 @@
                         <div class="alert alert-success mt-3" role="alert">
                                 ${successMessage}
                         </div>
-                        <a href="/login" class="btn btn-primary btn-block small-rounded-btn">Return To Login</a>
                     </c:if>
+
+                    <div class="d-grid gap-2 col-5 mx-auto">
+                        <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Reset Password</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<%--
+@Author Bootstrap
+Source: https://getbootstrap.com/docs/5.3/forms/validation/#custom-styles
+ --%>
 <script>
-    $(document).ready(function() {
-        $("#passwordResetForm").validate({
-            rules: {
-                username: {
-                    required: true
-                },
-                newPassword: {
-                    required: true
+    (() => {
+        'use strict'
+
+        // Fetch all the forms to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
                 }
-            },
-            messages: {
-                username: {
-                    required: "Please enter your username"
-                },
-                newPassword: {
-                    required: "Please enter your new password"
-                }
-            },
-            errorPlacement: function(error, element) {
-                error.addClass("invalid-feedback");
-                error.insertAfter(element);
-            }
-        });
-        // Check for a successMessage and disable form elements if there is a successMessage
-        <c:if test="${not empty successMessage}">
-            $("#passwordResetForm").find(':input').prop('disabled', true);
-        </c:if>
-    });
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
 </script>
 
 </body>

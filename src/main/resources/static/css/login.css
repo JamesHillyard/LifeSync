@@ -1,16 +1,18 @@
 .colorful-section {
     background: linear-gradient(to bottom right, #ff6600, #ff3366);
-    height: 100vh;
-    width: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
 }
+.full-height {
+    min-height: 100vh;
+}
 .small-rounded-btn {
     border-radius: 20px;
     font-size: 14px;
     padding: 10px 10px;
+    margin-top: 20px;
 }
 .gray-text {
     color: rgb(128, 128, 128);
@@ -22,7 +24,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%; /* This ensures the container takes the full height of its parent */
 }
 .form-padding {
     padding-right: 15%;

@@ -1,10 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- Add Bootstrap JS scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,57 +13,67 @@
     </script>
 
     <title>LifeSync | Login</title>
-    <!-- Add Bootstrap CSS link -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Bootstrap CSS & JS link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
         <!-- Left colorful section -->
-        <div class="col-7 colorful-section">
+        <div class="col-lg-7 colorful-section full-height">
 
         </div>
         <!-- Right login form -->
-        <div class="col-md-5">
-            <div class="center-vertically">
-                <div class="text-center mt-5">
-                    <img src="/assets/logo.png" alt="LifeSync Logo" width="200" class="logo-padding">
-                    <h2 class="title-colour">LifeSync</h2>
+        <div class="col-lg-5 center-vertically full-height">
+            <div class="text-center mt-5">
+                <img src="/assets/logo.png" alt="LifeSync Logo" width="200" class="logo-padding">
+                <h2 class="title-colour">LifeSync</h2>
+            </div>
+            <form class="mt-4 form-padding needs-validation" novalidate action="${pageContext.request.contextPath}/login" method="post" id="loginForm">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="" required>
+                    <label for="email">Email address</label>
+                    <div class="invalid-feedback">
+                        Please enter your email address.
+                    </div>
                 </div>
-                <form class="mt-4 form-padding" action="${pageContext.request.contextPath}/login" method="post" id="loginForm">
-                    <div class="form-group">
-                        <input type="text" class="form-control custom-input" placeholder="Username" name="username">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="" required>
+                    <label for="password">Password</label>
+                    <div class="invalid-feedback">
+                        Please enter your password.
                     </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control custom-input" placeholder="Password" name="password">
-                        <div class="text-right mt-2">
-                            <a href="passwordreset" class="gray-text">Forgot Password?</a>
-                        </div>
+                    <div class="text-end mt-2">
+                        <a href="passwordreset" class="gray-text">Forgot Password?</a>
                     </div>
-                    <div class="invalid-feedback">This field is required.</div>
-                    <c:if test="${not empty loginError}">
-                        <div class="alert alert-danger mt-3" role="alert">
-                                ${loginError}
-                        </div>
-                    </c:if>
+                </div>
+                <c:if test="${not empty loginError}">
+                    <div class="alert alert-danger mt-3" role="alert">
+                            ${loginError}
+                    </div>
+                </c:if>
+
+                <div class="d-grid gap-2 col-5 mx-auto">
                     <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Login</button>
-                    <div class="mt-3 text-center">
-                        <div class="line"></div>
-                        <div class="small text-muted">
-                            <a href="#" data-toggle="modal" data-target="#privacyPolicyModal" class="gray-text">
-                                Privacy Policy
-                            </a>
-                            <span class="mx-2">|</span>
-                            <a href="#" data-toggle="modal" data-target="#termsOfUseModal" class="gray-text">
-                                Terms of Use
-                            </a>
-                        </div>
-                    </div>
-                </form>
-                <div class="text-center mt-3 gray-text">
-                    <a href="${pageContext.request.contextPath}/signup" class="btn btn-link gray-text">Sign Up</a>
                 </div>
+
+                <div class="mt-3 text-center">
+                    <div class="line"></div>
+                    <div class="small text-muted">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal" class="gray-text">
+                            Privacy Policy
+                        </a>
+                        <span class="mx-2">|</span>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#termsOfUseModal" class="gray-text">
+                            Terms of Use
+                        </a>
+                    </div>
+                </div>
+            </form>
+            <div class="text-center mt-3 gray-text">
+                <a href="${pageContext.request.contextPath}/signup" class="btn btn-link gray-text">Sign Up</a>
             </div>
         </div>
     </div>
@@ -204,32 +208,29 @@
     </div>
 </div>
 
+<%--
+@Author Bootstrap
+Source: https://getbootstrap.com/docs/5.3/forms/validation/#custom-styles
+ --%>
 <script>
-    $(document).ready(function() {
-        $("#loginForm").validate({
-            rules: {
-                username: {
-                    required: true
-                },
-                password: {
-                    required: true
-                }
-            },
-            messages: {
-                username: {
-                    required: "Please enter your username"
-                },
-                password: {
-                    required: "Please enter your password"
-                }
-            },
-            errorPlacement: function(error, element) {
-                error.addClass("invalid-feedback");
-                error.insertAfter(element);
-            }
-        });
-    });
-</script>
+    (() => {
+        'use strict'
 
+        // Fetch all the forms to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
 </body>
 </html>
