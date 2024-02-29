@@ -51,10 +51,10 @@ public class NutritionIT extends UITestBase {
         assertThat(page.getByRole(AriaRole.CELL, new Page.GetByRoleOptions().setName("URL"))).isVisible();
 
         // Verify CRUD Tabs are Visible
-        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("View Nutrition Data"))).isVisible();
-        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Input Nutrition Data"))).isVisible();
-        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("View Nutrition Data"))).isEnabled();
-        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Input Nutrition Data"))).isEnabled();
+        assertThat(page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("View Nutrition Data"))).isVisible();
+        assertThat(page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("Input Nutrition Data"))).isVisible();
+        assertThat(page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("View Nutrition Data"))).isEnabled();
+        assertThat(page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("Input Nutrition Data"))).isEnabled();
         assertThat(page.locator("li").filter(new Locator.FilterOptions().setHasText("Edit Nutrition Data"))).isVisible();
 
         // Verify Nutrition Table Headers are Visible
@@ -80,7 +80,7 @@ public class NutritionIT extends UITestBase {
     @Test
     public void testAddNutritionData() {
         // Click Input Data Tab and Enter Data
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Input Nutrition Data")).click();
+        page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("Input Nutrition Data")).click();
         page.getByLabel("Date:").fill("2024-01-10");
         page.getByLabel("Nutrition Details:").click();
         page.getByLabel("Nutrition Details:").fill("Three Apples");

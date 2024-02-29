@@ -56,8 +56,8 @@ public class SleepIT extends UITestBase {
         assertThat(page.getByRole(AriaRole.CELL, new Page.GetByRoleOptions().setName("Read Here")).first()).isVisible();
 
         // Verify CRUD Tabs are Visible
-        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("View Sleep Data"))).isVisible();
-        assertThat(page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Input Sleep Data"))).isVisible();
+        assertThat(page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("View Sleep Data"))).isVisible();
+        assertThat(page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("Input Sleep Data"))).isVisible();
         assertThat(page.locator("li").filter(new Locator.FilterOptions().setHasText("Edit Sleep Data"))).isVisible();
 
         // Verify Nutrition Table Headers are Visible
@@ -74,7 +74,7 @@ public class SleepIT extends UITestBase {
     @Test
     public void testAddNutritionData() {
         // Click Input Data Tab and Enter Data
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Input Sleep Data")).click();
+        page.getByRole(AriaRole.TAB, new Page.GetByRoleOptions().setName("Input Sleep Data")).click();
         page.getByLabel("Start Sleep:").fill("2024-01-10T22:30");
         page.getByLabel("End Sleep:").fill("2024-01-11T08:30");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit")).click();

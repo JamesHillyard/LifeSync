@@ -13,10 +13,9 @@
     </script>
 
     <title>LifeSync | Nutrition</title>
-    <!-- Bootstrap CSS and JavaScript -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Add Bootstrap CSS & JS link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Client Side Validation -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -55,7 +54,7 @@
 
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="timeRangeDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="timeRangeDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <c:choose>
                     <c:when test="${empty cookie.timeRange}">
                         7 Days
@@ -72,7 +71,7 @@
             </div>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img src="/assets/user-profile.png" alt="Your Profile" width="30" height="30" class="d-inline-block align-top"> ${user.firstname}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -185,13 +184,13 @@
             <div class="quadrant-container quadrant-bottom">
                 <ul class="nav nav-underline">
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#view-nutrition">View Nutrition Data</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#view-nutrition">View Nutrition Data</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#input-nutrition">Input Nutrition Data</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#input-nutrition">Input Nutrition Data</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" data-toggle="tab" href="#edit-nutrition">Edit Nutrition Data</a>
+                        <a class="nav-link disabled" data-bs-toggle="tab" href="#edit-nutrition">Edit Nutrition Data</a>
                     </li>
                 </ul>
 
@@ -236,7 +235,7 @@
                                 <label for="nutritionDetails">Nutrition Details:</label>
                                 <input type="text" class="form-control custom-input" id="nutritionDetails" name="nutritionDetails">
                                 <div class="text-right mt-2">
-                                    <a href="#" data-toggle="modal" data-target="#needHelpModal" class="small text-muted">
+                                    <a href="#" data-bs-toggle="modal" data-target="#needHelpModal" class="small text-muted">
                                         Need Help?
                                     </a>
                                 </div>
