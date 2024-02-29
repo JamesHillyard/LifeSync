@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LifeSyncUserRepository extends JpaRepository<LifeSyncUser, Integer> {
-    LifeSyncUser findByUsername(String username);
+    LifeSyncUser findByEmail(String email);
 }

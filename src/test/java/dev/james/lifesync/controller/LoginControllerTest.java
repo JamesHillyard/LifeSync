@@ -92,7 +92,7 @@ public class LoginControllerTest {
     @Test
     public void authenticate_Success() throws Exception {
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/login")
-                        .param("username", "jhillyard")
+                        .param("email", "james.hillyard@payara.fish")
                         .param("password", "test"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/hlsp/dashboard"));
@@ -104,7 +104,7 @@ public class LoginControllerTest {
     @Test
     public void authenticate_Failure_UserDoesNotExist() throws Exception {
         mockMvc.perform(post("/login")
-                        .param("username", "IDontExist")
+                        .param("email", "IDontExist")
                         .param("password", "test"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"))
@@ -114,7 +114,7 @@ public class LoginControllerTest {
     @Test
     public void authenticate_Failure_IncorrectPassword() throws Exception {
         mockMvc.perform(post("/login")
-                        .param("username", "jhillyard")
+                        .param("email", "james.hillyard@payara.fish")
                         .param("password", "IncorrectPassword"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"))

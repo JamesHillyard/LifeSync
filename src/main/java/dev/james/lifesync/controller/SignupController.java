@@ -34,20 +34,20 @@ public class SignupController extends HttpServlet {
     @PostMapping
     public String registerUser(@RequestParam("firstname") String firstname,
                                @RequestParam("lastname") String lastname,
-                               @RequestParam("username") String username,
+                               @RequestParam("email") String email,
                                @RequestParam("password") String password,
                                Model model) {
 
-        if (!usernameAvailable(username)) {
-            LOGGER.fine("New User " + username + " could not register as username is taken.");
-            model.addAttribute("error", "Username " + username + " is already taken.");
+        if (!emailAvailable(email)) {
+            LOGGER.fine("New User " + email + " could not register as email is taken.");
+            model.addAttribute("error", "Username " + email + " is already taken.");
             return "signup";
         }
 
-        LifeSyncUser user = new LifeSyncUser(firstname, lastname, username, password);
+        LifeSyncUser user = new LifeSyncUser(firstname, lastname, email, password);
         saveUser(user);
 
-        LOGGER.fine(String.format("%s %s has successfully registered as %s", firstname, lastname, username));
+        LOGGER.fine(String.format("%s %s has successfully registered as %s", firstname, lastname, email));
         model.addAttribute("successMessage", "Registered Successfully");
         return "signup";
     }
@@ -56,8 +56,8 @@ public class SignupController extends HttpServlet {
         lifeSyncUserService.saveUser(user);
     }
 
-    private boolean usernameAvailable(String username) {
-        // If getting the user by username returns a null object, it wasn't found and therefore available
-        return lifeSyncUserService.getUser(username) == null;
+    private boolean emailAvailable(String email) {
+        // If getting the user by email returns a null object, it wasn't found and therefore available
+        return lifeSyncUserService.getUser(email) == null;
     }
 }

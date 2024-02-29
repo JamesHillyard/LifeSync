@@ -29,13 +29,13 @@ public class LoginController {
 
     Logger LOGGER = Logger.getLogger(LoginController.class.getName());
 
-    private void authenticateUser(String username, String password) throws AuthenticationException {
-        String passwordInDatabase = lifeSyncUserService.getUserPassword(username);
+    private void authenticateUser(String email, String password) throws AuthenticationException {
+        String passwordInDatabase = lifeSyncUserService.getUserPassword(email);
         if (!password.equals(passwordInDatabase)) {
-            LOGGER.fine("User " + username + " tried to login but their credentials were incorrect.");
+            LOGGER.fine("User " + email + " tried to login but their credentials were incorrect.");
             throw new AuthenticationException();
         }
-        LOGGER.fine("User " + username + " successfully authenticated.");
+        LOGGER.fine("User " + email + " successfully authenticated.");
     }
 
     @GetMapping
@@ -44,12 +44,12 @@ public class LoginController {
     }
 
     @PostMapping
-    public String authenticate(@RequestParam("username") String username,
+    public String authenticate(@RequestParam("email") String email,
                                @RequestParam("password") String password,
                                Model model, RedirectAttributes redirectAttributes) {
         try {
-            authenticateUser(username, password);
-            LifeSyncUser user = lifeSyncUserService.getUser(username);
+            authenticateUser(email, password);
+            LifeSyncUser user = lifeSyncUserService.getUser(email);
             model.addAttribute("user", user);
             return "redirect:/hlsp/dashboard";
         } catch (AuthenticationException e) {

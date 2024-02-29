@@ -70,7 +70,7 @@ class SleepControllerTest {
 
     @NotNull
     private static LifeSyncUser getLifeSyncUser() {
-        return new LifeSyncUser(1, "James", "Hillyard", "jhillyard", "test");
+        return new LifeSyncUser(1, "James", "Hillyard", "james.hillyard@payara.fish", "test");
     }
 
     @Test

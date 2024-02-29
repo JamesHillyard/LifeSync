@@ -73,10 +73,10 @@ public class UITestBase {
      */
     protected void loginToLifeSync(Page page) {
         page.navigate(BASE_URL+"/login");
-        page.getByPlaceholder("Username").click();
-        page.getByPlaceholder("Username").fill("jhillyardSAFE");
-        page.getByPlaceholder("Password").click();
-        page.getByPlaceholder("Password").fill("test");
+        page.getByLabel("Email address").click();
+        page.getByLabel("Email address").fill("james.hillyardSAFE@payara.fish");
+        page.getByLabel("Password").click();
+        page.getByLabel("Password").fill("test");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
     }
 }

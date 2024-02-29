@@ -25,8 +25,8 @@ public class LifeSyncUser {
     @Column(name = "lastname")
     private String lastname;
     @Basic
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
     @Basic
     @Column(name = "password")
     private String password;
@@ -40,18 +40,18 @@ public class LifeSyncUser {
     @Transient
     private List<NutritionData> nutritionData;
 
-    public LifeSyncUser(int id, String firstname, String lastname, String username, String password) {
+    public LifeSyncUser(int id, String firstname, String lastname, String email, String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
-    public LifeSyncUser(String firstname, String lastname, String username, String password) {
+    public LifeSyncUser(String firstname, String lastname, String email, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -83,12 +83,12 @@ public class LifeSyncUser {
         this.lastname = lastname;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -128,11 +128,11 @@ public class LifeSyncUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LifeSyncUser user = (LifeSyncUser) o;
-        return id == user.id && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
+        return id == user.id && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, username, password);
+        return Objects.hash(id, firstname, lastname, email, password);
     }
 }

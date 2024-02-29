@@ -85,9 +85,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <!-- Close button -->
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="font-size: 12px; line-height: 1.4;">
                 <div style="white-space: normal">
@@ -143,9 +141,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <!-- Close button -->
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="font-size: 12px; line-height: 1.4;">
                 <div style="white-space: normal;">

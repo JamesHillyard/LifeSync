@@ -18,12 +18,12 @@ public class LifeSyncUserTest {
 
     @Test
     public void testCreateUser() {
-        LifeSyncUser user = new LifeSyncUser(1, "James", "Hillyard", "jhillyard", "password");
+        LifeSyncUser user = new LifeSyncUser(1, "James", "Hillyard", "james.hillyard@payara.fish", "password");
 
         assertEquals(1, user.getId());
         assertEquals("James", user.getFirstname());
         assertEquals("Hillyard", user.getLastname());
-        assertEquals("jhillyard", user.getUsername());
+        assertEquals("james.hillyard@payara.fish", user.getEmail());
         assertEquals("password", user.getPassword());
     }
 
@@ -34,7 +34,7 @@ public class LifeSyncUserTest {
         assertEquals(0, user.getId());
         assertNull(user.getFirstname());
         assertNull(user.getLastname());
-        assertNull(user.getUsername());
+        assertNull(user.getEmail());
         assertNull(user.getPassword());
     }
 
@@ -44,20 +44,20 @@ public class LifeSyncUserTest {
         user.setId(2);
         user.setFirstname("James");
         user.setLastname("Hillyard");
-        user.setUsername("jhillyard");
+        user.setEmail("james.hillyard@payara.fish");
         user.setPassword("newpassword");
 
         assertEquals(2, user.getId());
         assertEquals("James", user.getFirstname());
         assertEquals("Hillyard", user.getLastname());
-        assertEquals("jhillyard", user.getUsername());
+        assertEquals("james.hillyard@payara.fish", user.getEmail());
         assertEquals("newpassword", user.getPassword());
     }
 
     @Test
     public void testEqualsAndHashCode() {
-        LifeSyncUser user1 = new LifeSyncUser(1, "James", "Hillyard", "jhillyard", "password");
-        LifeSyncUser user2 = new LifeSyncUser(1, "James", "Hillyard", "jhillyard", "password");
+        LifeSyncUser user1 = new LifeSyncUser(1, "James", "Hillyard", "james.hillyard@payara.fish", "password");
+        LifeSyncUser user2 = new LifeSyncUser(1, "James", "Hillyard", "james.hillyard@payara.fish", "password");
 
         assertTrue(user1.equals(user2));
         assertTrue(user2.equals(user1));
@@ -66,7 +66,7 @@ public class LifeSyncUserTest {
 
     @Test
     public void testNotEquals() {
-        LifeSyncUser user1 = new LifeSyncUser(1, "James", "Hillyard", "jhillyard", "password");
+        LifeSyncUser user1 = new LifeSyncUser(1, "James", "Hillyard", "james.hillyard@payara.fish", "password");
         LifeSyncUser user2 = new LifeSyncUser();
 
         assertFalse(user1.equals(user2));
@@ -76,7 +76,7 @@ public class LifeSyncUserTest {
 
     @Test
     public void testEqualsOnSameObject() {
-        LifeSyncUser user = new LifeSyncUser(1, "James", "Hillyard", "jhillyard", "password");
+        LifeSyncUser user = new LifeSyncUser(1, "James", "Hillyard", "james.hillyard@payara.fish", "password");
 
         assertTrue(user.equals(user));
         assertEquals(user.hashCode(), user.hashCode());
@@ -84,7 +84,7 @@ public class LifeSyncUserTest {
 
     @Test
     public void testEqualsWithDifferentClass() {
-        LifeSyncUser user = new LifeSyncUser(1, "James", "Hillyard", "jhillyard", "password");
+        LifeSyncUser user = new LifeSyncUser(1, "James", "Hillyard", "james.hillyard@payara.fish", "password");
         String string = "Hello";
 
         assertFalse(user.equals(string));

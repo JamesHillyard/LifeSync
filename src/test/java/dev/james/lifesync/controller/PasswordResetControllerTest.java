@@ -67,8 +67,8 @@ public class PasswordResetControllerTest {
     @Test
     void resetPasswordSuccess() throws Exception {
         mockMvc.perform(post("/passwordreset")
-                        .param("username", "jhillyard")
-                        .param("newPassword", "test1"))
+                        .param("email", "james.hillyard@payara.fish")
+                        .param("password", "test1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("passwordreset"))
                 .andExpect(model().attribute("successMessage", "Password Reset Successfully"));
@@ -77,8 +77,8 @@ public class PasswordResetControllerTest {
     @Test
     void resetPasswordUserNotFound() throws Exception {
         mockMvc.perform(post("/passwordreset")
-                        .param("username", "nonexistentuser")
-                        .param("newPassword", "newpassword"))
+                        .param("email", "nonexistentuser")
+                        .param("password", "newpassword"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("passwordreset"))
                 .andExpect(model().attribute("error", "User doesn't exist."));

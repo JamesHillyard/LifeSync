@@ -31,13 +31,13 @@ public class PasswordResetController {
     }
 
     @PostMapping
-    public String resetPassword(@RequestParam("username") String username,
-                                @RequestParam("newPassword") String newPassword,
+    public String resetPassword(@RequestParam("email") String email,
+                                @RequestParam("password") String newPassword,
                                 Model model) {
 
-        LifeSyncUser user = lifeSyncUserService.getUser(username);
+        LifeSyncUser user = lifeSyncUserService.getUser(email);
         if (user == null) {
-            LOGGER.fine("Couldn't reset password as user " + username + " does not exist.");
+            LOGGER.fine("Couldn't reset password as user " + email + " does not exist.");
             model.addAttribute("error", "User doesn't exist.");
             return "passwordreset";
         }
@@ -45,7 +45,7 @@ public class PasswordResetController {
         user.setPassword(newPassword);
         lifeSyncUserService.saveUser(user);
 
-        LOGGER.fine("User " + user.getUsername() + " has changed their password.");
+        LOGGER.fine("User " + user.getEmail() + " has changed their password.");
 
         model.addAttribute("successMessage", "Password Reset Successfully");
         return "passwordreset";

@@ -1,6 +1,6 @@
 USE lifesync_database;
-INSERT INTO `lifesync_database`.`LifeSyncUser` (`id`, `firstname`, `lastname`, `username`, `password`) VALUES (1, 'James', 'Hillyard', 'jhillyardSAFE', 'test'); # This user never has their credentials changed and has the dummy data below
-INSERT INTO `lifesync_database`.`LifeSyncUser` (`firstname`, `lastname`, `username`, `password`) VALUES ('James', 'Hillyard', 'jhillyard', 'test');
+INSERT INTO `lifesync_database`.`LifeSyncUser` (`id`, `firstname`, `lastname`, `email`, `password`) VALUES (1, 'James', 'Hillyard', 'james.hillyardSAFE@payara.fish', 'test'); # This user never has their credentials changed and has the dummy data below
+INSERT INTO `lifesync_database`.`LifeSyncUser` (`firstname`, `lastname`, `email`, `password`) VALUES ('James', 'Hillyard', 'james.hillyard@payara.fish', 'test');
 INSERT INTO `lifesync_database`.`SleepData` (`userid`, `starttime`, `endtime`) VALUES ('1', '2023-10-23 22:00:00', '2023-10-24 08:00:00');
 INSERT INTO `lifesync_database`.`SleepData` (`userid`, `starttime`, `endtime`) VALUES ('1', '2023-10-24 23:30:00', '2023-10-25 09:00:00');
 INSERT INTO `lifesync_database`.`SleepData` (`userid`, `starttime`, `endtime`) VALUES ('1', '2023-10-25 22:00:00', '2023-10-26 10:25:00');

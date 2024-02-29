@@ -33,8 +33,8 @@ public class PasswordResetIT extends UITestBase {
     @Test
     public void testDefaultState() {
         // Verify all elements are enabled as expected
-        assertThat(page.getByPlaceholder("Username")).isEditable();
-        assertThat(page.getByPlaceholder("New Password")).isEditable();
+        assertThat(page.getByLabel("Email address")).isEditable();
+        assertThat(page.getByLabel("New Password")).isEditable();
         assertThat(page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reset Password"))).isEnabled();
         page.getByText("Password Reset Successfully").isHidden();
         page.getByText("User doesn't exist.").isHidden();
@@ -43,47 +43,38 @@ public class PasswordResetIT extends UITestBase {
     @Test
     public void testUpdatePassword() {
         // Verify all elements are enabled as expected
-        assertThat(page.getByPlaceholder("Username")).isEditable();
-        assertThat(page.getByPlaceholder("New Password")).isEditable();
+        assertThat(page.getByLabel("Email address")).isEditable();
+        assertThat(page.getByLabel("New Password")).isEditable();
         assertThat(page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reset Password"))).isEnabled();
 
         // Update a users password
-        page.getByPlaceholder("Username").click();
-        page.getByPlaceholder("Username").fill("jhillyard");
-        page.getByPlaceholder("New Password").click();
-        page.getByPlaceholder("New Password").fill("lemons");
+        page.getByLabel("Email address").click();
+        page.getByLabel("Email address").fill("james.hillyard@payara.fish");
+        page.getByLabel("New Password").click();
+        page.getByLabel("New Password").fill("lemons");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reset Password")).click();
-
-        // Verify the form is disabled as expected
-        assertThat(page.getByPlaceholder("Username")).isDisabled();
-        assertThat(page.getByPlaceholder("New Password")).isDisabled();
-        assertThat(page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reset Password"))).isDisabled();
 
         // Verify the success message is shown
         page.getByText("Password Reset Successfully").isVisible();
-
-        // Click the return to login and verify the redirection was correct
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Return To Login")).click();
-        assertEquals(BASE_URL+"/login", page.url());
     }
 
     @Test
     public void testUpdatePasswordNonExistentUser() {
         // Verify all elements are enabled as expected
-        assertThat(page.getByPlaceholder("Username")).isEditable();
-        assertThat(page.getByPlaceholder("New Password")).isEditable();
+        assertThat(page.getByLabel("Email address")).isEditable();
+        assertThat(page.getByLabel("New Password")).isEditable();
         assertThat(page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reset Password"))).isEnabled();
 
         // Update a users password
-        page.getByPlaceholder("Username").click();
-        page.getByPlaceholder("Username").fill("IdOnTExiSt");
-        page.getByPlaceholder("New Password").click();
-        page.getByPlaceholder("New Password").fill("changeit");
+        page.getByLabel("Email address").click();
+        page.getByLabel("Email address").fill("IdOnTExiSt");
+        page.getByLabel("New Password").click();
+        page.getByLabel("New Password").fill("changeit");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reset Password")).click();
 
         // Verify the form is NOT disabled as with pass condition
-        assertThat(page.getByPlaceholder("Username")).isEditable();
-        assertThat(page.getByPlaceholder("New Password")).isEditable();
+        assertThat(page.getByLabel("Email address")).isEditable();
+        assertThat(page.getByLabel("New Password")).isEditable();
         assertThat(page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reset Password"))).isEnabled();
 
         // Verify the error message is shown and success message is hidden

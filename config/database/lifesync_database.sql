@@ -4,10 +4,10 @@ CREATE TABLE IF NOT EXISTS `LifeSyncUser` (
                                 `id` int NOT NULL AUTO_INCREMENT,
                                 `firstname` varchar(45) NOT NULL,
                                 `lastname` varchar(45) NOT NULL,
-                                `username` varchar(45) NOT NULL,
+                                `email` varchar(255) NOT NULL,
                                 `password` varchar(45) NOT NULL,
                                 PRIMARY KEY (`id`),
-                                UNIQUE KEY `username_UNIQUE` (`username`)
+                                UNIQUE KEY `email_UNIQUE` (`email`)
 );
 CREATE TABLE IF NOT EXISTS `SleepData` (
                                  `sleepid` INT NOT NULL AUTO_INCREMENT,

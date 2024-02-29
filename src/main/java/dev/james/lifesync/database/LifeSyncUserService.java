@@ -14,16 +14,16 @@ public class LifeSyncUserService {
         this.lifeSyncUserRepository = lifeSyncUserRepository;
     }
 
-    public LifeSyncUser getUser(String username) {
-        return lifeSyncUserRepository.findByUsername(username);
+    public LifeSyncUser getUser(String email) {
+        return lifeSyncUserRepository.findByEmail(email);
     }
 
     public void saveUser(LifeSyncUser user) {
         lifeSyncUserRepository.save(user);
     }
 
-    public String getUserPassword(String username) {
-        LifeSyncUser user = lifeSyncUserRepository.findByUsername(username);
+    public String getUserPassword(String email) {
+        LifeSyncUser user = lifeSyncUserRepository.findByEmail(email);
         if (user == null) {
             return null;
         }

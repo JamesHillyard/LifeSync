@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//TODO: Spring should start before these tests are run
 public class LoginIT extends UITestBase {
 
     BrowserContext context;
@@ -56,20 +55,20 @@ public class LoginIT extends UITestBase {
     @Test
     public void testInvalidLogin() {
         assertThat(page.getByText("Invalid Username or Password.")).isHidden();
-        page.getByPlaceholder("Username").click();
-        page.getByPlaceholder("Username").fill("jhillyard");
-        page.getByPlaceholder("Password").click();
-        page.getByPlaceholder("Password").fill("INCoRReCtP@ssWoRd!");
+        page.getByLabel("Email address").click();
+        page.getByLabel("Email address").fill("james.hillyard@payara.fish");
+        page.getByLabel("Password").click();
+        page.getByLabel("Password").fill("INCoRReCtP@ssWoRd!");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
         assertThat(page.getByText("Invalid Username or Password.")).isVisible();
     }
 
     @Test
     public void testValidLogin() {
-        page.getByPlaceholder("Username").click();
-        page.getByPlaceholder("Username").fill("jhillyardSAFE");
-        page.getByPlaceholder("Password").click();
-        page.getByPlaceholder("Password").fill("test");
+        page.getByLabel("Email address").click();
+        page.getByLabel("Email address").fill("james.hillyardSAFE@payara.fish");
+        page.getByLabel("Password").click();
+        page.getByLabel("Password").fill("test");
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
     }
 
@@ -107,34 +106,34 @@ public class LoginIT extends UITestBase {
     @Test
     public void testUsernamePasswordErrorTest() {
         // Verify both error messages are hidden
-        assertThat(page.getByText("Please enter your username")).isHidden();
+        assertThat(page.getByText("Please enter your email")).isHidden();
         assertThat(page.getByText("Please enter your password")).isHidden();
 
-        // Click the username and password box then login
-        page.getByPlaceholder("Username").click();
-        page.getByPlaceholder("Password").click();
+        // Click the email and password box then login
+        page.getByLabel("Email address").click();
+        page.getByLabel("Password").click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login")).click();
 
         // Verify both error messages are visible
-        assertThat(page.getByText("Please enter your username")).isVisible();
-        assertThat(page.getByText("Please enter your password")).isVisible();
+        assertThat(page.getByText("Please enter your email address.")).isVisible();
+        assertThat(page.getByText("Please enter your password.")).isVisible();
 
-        // Populate the username box
-        page.getByPlaceholder("Username").click();
-        page.getByPlaceholder("Username").fill("a");
-        page.getByPlaceholder("Password").click(); // This is required due to the speed playwright runs at
+        // Populate the email box
+        page.getByLabel("Email address").click();
+        page.getByLabel("Email address").fill("test@email");
+        page.getByLabel("Password").click(); // This is required due to the speed playwright runs at
 
-        // Verify the username error is hidden and the password error is visible
-        assertThat(page.getByText("Please enter your username")).isHidden();
-        assertThat(page.getByText("Please enter your password")).isVisible();
+        // Verify the email error is hidden and the password error is visible
+        assertThat(page.getByText("Please enter your email address.")).isHidden();
+        assertThat(page.getByText("Please enter your password.")).isVisible();
 
         // Populate the password box
-        page.getByPlaceholder("Password").click();
-        page.getByPlaceholder("Password").fill("b");
-        page.getByPlaceholder("Username").click(); // This is required due to the speed playwright runs at
+        page.getByLabel("Password").click();
+        page.getByLabel("Password").fill("b");
+        page.getByLabel("Email address").click(); // This is required due to the speed playwright runs at
 
         // Verify both error messages are hidden
-        assertThat(page.getByText("Please enter your username")).isHidden();
+        assertThat(page.getByText("Please enter your email")).isHidden();
         assertThat(page.getByText("Please enter your password")).isHidden();
     }
 
