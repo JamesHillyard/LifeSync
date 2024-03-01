@@ -1,0 +1,13 @@
+# The provider file is used to tell Grafana what dashboards to create and where to find the JSON config file for each dashboard
+
+apiVersion: 1
+
+providers:
+  - name: 'Monitoring'
+    orgId: 1
+    folder: 'LifeSync'
+    type: file
+    disableDeletion: true
+    allowUiUpdates: false
+    options:
+      path: /etc/grafana/provisioning/dashboards/lifesync-monitoring.json

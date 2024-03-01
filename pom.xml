@@ -48,6 +48,13 @@
             <version>${springboot.version}</version>
         </dependency>
 
+        <!-- Enhanced Monitoring -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>1.12.3</version>
+        </dependency>
+
         <!-- JSTL -->
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
