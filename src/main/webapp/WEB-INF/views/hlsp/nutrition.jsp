@@ -198,7 +198,9 @@
                                         ${dataEntryError}
                                 </div>
                             </c:if>
-                            <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Submit</button>
+                            <div class="d-grid gap-2 col-5 mx-auto">
+                                <button type="submit" class="btn btn-primary btn-block small-rounded-btn">Submit</button>
+                            </div>
                         </form>
                     </div>
                     <!-- Edit Sleep Tab Content -->
