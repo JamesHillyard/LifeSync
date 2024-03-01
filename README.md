@@ -3,7 +3,9 @@
 
 # LifeSync
 
-Get your life in sync
+LifeSync is a healthy life software product (HLSP) aiming to be a drop-in replacement for existing solutions like Google Fit and Apple Health with exercise and nutrition tracking taken to the next level with a natural language-based API, recommend articles to users based on their data.
+
+Aston University - DC3AWD Module
 <br/><br/>
 
 
@@ -11,6 +13,9 @@ Get your life in sync
 [![latest version](https://img.shields.io/github/tag/JamesHillyard/LifeSync.svg)](https://github.com/JamesHillyard/LifeSync/releases)
 [![MIT License](https://img.shields.io/github/license/JamesHillyard/LifeSync.svg)](https://opensource.org/license/mit/)
 [![Known Vulnerabilities](https://snyk.io/test/github/JamesHillyard/LifeSync/badge.svg)](https://snyk.io/)
+<br>
+![CodeCov Workflow](https://github.com/JamesHillyard/LifeSync/actions/workflows/codecoverage.yml/badge.svg)
+![CodeQL](https://github.com/JamesHillyard/LifeSync/actions/workflows/codeql.yml/badge.svg)
 
 </div>
 
