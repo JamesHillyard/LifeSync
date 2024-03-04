@@ -23,6 +23,7 @@ public class NavBarIT extends UITestBase {
         page = context.newPage();
 
         loginToLifeSync(page);
+        page.navigate(BASE_URL+"/hlsp/dashboard");
         assertEquals(BASE_URL+"/hlsp/dashboard", page.url());
     }
 
@@ -41,8 +42,9 @@ public class NavBarIT extends UITestBase {
 
     @Test
     public void testNavigation() {
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Dashboard")).click();
-        assertEquals(BASE_URL+"/hlsp/dashboard", page.url());
+        // Disabled as the dashboard is currently disabled
+//        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Dashboard")).click();
+//        assertEquals(BASE_URL+"/hlsp/dashboard", page.url());
 
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Nutrition")).click();
         assertEquals(BASE_URL+"/hlsp/nutrition", page.url());

@@ -27,7 +27,7 @@ public class UITestBase {
      * Controls headlessMode for all tests extending this class.
      * Can be overridden by setting headlessMode at a method level
      */
-    protected static boolean headless = false;
+    protected static boolean headless = true;
 
     /**
      * Variables that are configured before and after all tests and don't change class to class

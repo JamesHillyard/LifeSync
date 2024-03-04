@@ -95,7 +95,7 @@ public class LoginControllerTest {
                         .param("email", "james.hillyard@payara.fish")
                         .param("password", "test"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/hlsp/dashboard"));
+                .andExpect(redirectedUrl("/hlsp/nutrition"));
 
         // Session Attributes are not actually created without the use of ResultActions hence a separate statement
         result.andExpect(request().sessionAttribute("user", Matchers.notNullValue()));

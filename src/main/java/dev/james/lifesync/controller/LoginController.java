@@ -51,7 +51,7 @@ public class LoginController {
             authenticateUser(email, password);
             LifeSyncUser user = lifeSyncUserService.getUser(email);
             model.addAttribute("user", user);
-            return "redirect:/hlsp/dashboard";
+            return "redirect:/hlsp/nutrition";
         } catch (AuthenticationException e) {
             // Handle authentication failure
             redirectAttributes.addFlashAttribute("loginError", "Invalid Username or Password.");

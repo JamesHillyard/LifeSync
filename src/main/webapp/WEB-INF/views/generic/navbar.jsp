@@ -13,8 +13,9 @@
         <!-- Navbar Links -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                <%-- Dashboard Functionality is not implemented and should be disabled --%>
                 <li class="nav-item">
-                    <a class="nav-link" href="/hlsp/dashboard">Dashboard</a>
+                    <div class="nav-link gray-text">Dashboard</div>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/hlsp/nutrition">Nutrition</a>
